@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(:version => 20120611101805) do
     t.text     "description"
     t.integer  "length"
     t.integer  "year"
+    t.string   "image_url"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
@@ -64,6 +65,7 @@ ActiveRecord::Schema.define(:version => 20120611101805) do
     t.datetime "date"
     t.text     "text"
     t.boolean  "movie_suggestions_allowed", :default => true
+    t.integer  "featured_movie_id"
     t.datetime "created_at",                                  :null => false
     t.datetime "updated_at",                                  :null => false
   end

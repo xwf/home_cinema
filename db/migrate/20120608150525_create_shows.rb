@@ -4,6 +4,7 @@ class CreateShows < ActiveRecord::Migration
       t.datetime :date
       t.text :text
       t.boolean :movie_suggestions_allowed, default: true
+			t.integer :featured_movie_id, null: true, default: nil
 
       t.timestamps
     end

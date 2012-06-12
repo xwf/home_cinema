@@ -1,5 +1,5 @@
 class Movie < ActiveRecord::Base
-  attr_accessible :description, :length, :title, :year
+  attr_accessible :description, :length, :title, :year, :image_url
 
 	has_many :movie_suggestions, dependent: :destroy
 

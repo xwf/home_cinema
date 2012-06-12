@@ -3,6 +3,7 @@ class Show < ActiveRecord::Base
 
 	has_many :registrations, dependent: :destroy
 	has_many :movie_suggestions, dependent: :destroy
+	belongs_to :featured_movie, class_name: 'Movie'
 	has_many :votes, through: :registrations
 	has_many :seat_reservations, through: :registrations
 

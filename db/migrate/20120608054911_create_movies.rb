@@ -5,6 +5,7 @@ class CreateMovies < ActiveRecord::Migration
       t.text :description
       t.integer :length
       t.integer :year
+			t.string :image_url
 
       t.timestamps
     end
