@@ -5,6 +5,7 @@ class CreateMovieSuggestions < ActiveRecord::Migration
       t.integer :show_id, null: false
       t.integer :registration_id
       t.text :comment
+			t.string :status
 
       t.timestamps
     end

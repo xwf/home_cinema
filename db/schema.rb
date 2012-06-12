@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(:version => 20120611101805) do
     t.integer  "show_id",         :null => false
     t.integer  "registration_id"
     t.text     "comment"
+    t.string   "status"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end

@@ -6,7 +6,7 @@ class RegistrationTest < ActiveSupport::TestCase
 			code: 'kfq7',
 			name: 'Bill',
 			email: 'bill@example.org',
-			status: Registration::STATUS_PENDING,
+			status: Status::PENDING,
 			show: shows(:one)
 		)
 	end

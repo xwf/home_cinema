@@ -1,6 +1,9 @@
+require 'status'
 class MovieSuggestion < ActiveRecord::Base
+	STATUSES = [Status::PENDING, Status::ACCEPTED, Status::DENIED]
+
   attr_accessible :comment, :movie_id, :registration_id, :show_id,
-									:movie, :registration, :show
+									:movie, :registration, :show, :status
 
 	belongs_to :movie
 	belongs_to :registration
@@ -9,6 +12,7 @@ class MovieSuggestion < ActiveRecord::Base
 
 	validates :movie, :show, presence: true
 	validates :movie_id, uniqueness: {scope: :show_id}
+	validates :status, inclusion: STATUSES
 	validate :suggestions_allowed_for_show
 
 	protected

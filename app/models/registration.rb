@@ -1,9 +1,6 @@
+require 'status'
 class Registration < ActiveRecord::Base
-	STATUS_PENDING = 'pending'
-	STATUS_ACCEPTED = 'accepted'
-	STATUS_DENIED = 'denied'
-	STATUS_CANCELLED = 'cancelled'
-  STATUSES = [STATUS_PENDING, STATUS_ACCEPTED, STATUS_DENIED, STATUS_CANCELLED]
+	STATUSES = [Status::PENDING, Status::ACCEPTED, Status::DENIED, Status::CANCELLED]
 
 	attr_accessible :code, :email, :name, :show_id, :show, :status
 
@@ -16,7 +13,7 @@ class Registration < ActiveRecord::Base
 	validates :code, uniqueness: true, format: /^[a-z0-9]{4}$/
 	validates :name, uniqueness: {scope: [:show_id, :email], case_sensitive: false}
 	validates :email, format: /^[a-z0-9\-_.]+@[a-z0-9\-]+(\.[a-z0-9\-]+)+$/
-	validates :status, inclusion: {in: STATUSES}
+	validates :status, inclusion: STATUSES
 	validate :max_two_seats_per_registration, :seats_available
 
 	def email=(email)
