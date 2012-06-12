@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+matrix:
+  title: Matrix
+  description: bla bla bla
+  length: 132
+  year: 1999
+
+blade:
+  title: Blade
+  description: bla bla bla
+  length: 144
+  year: 2003

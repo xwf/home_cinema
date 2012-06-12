@@ -1,0 +1,10 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: Seat 1
+
+two:
+  name: Seat 2
+
+three:
+  name: Seat 3

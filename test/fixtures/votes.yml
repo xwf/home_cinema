@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  movie_suggestion_id: 1
+  registration_id: 1
+  points: 1
+
+two:
+  movie_suggestion_id: 1
+  registration_id: 1
+  points: 1

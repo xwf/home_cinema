@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @seat.name %>
+</p>
+
+<p>
+  <b>Image path free:</b>
+  <%= @seat.image_path_free %>
+</p>
+
+<p>
+  <b>Image path selected:</b>
+  <%= @seat.image_path_selected %>
+</p>
+
+<p>
+  <b>Image path taken:</b>
+  <%= @seat.image_path_taken %>
+</p>
+
+<p>
+  <b>Position x:</b>
+  <%= @seat.position_x %>
+</p>
+
+<p>
+  <b>Position y:</b>
+  <%= @seat.position_y %>
+</p>
+
+
+<%= link_to 'Edit', edit_seat_path(@seat) %> |
+<%= link_to 'Back', seats_path %>

@@ -1,0 +1,22 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+joe:
+  code: f6sn
+  name: Joe
+  email: joe@example.org
+  status: pending
+  show: one
+
+jill:
+  code: kxok
+  name: Jill
+  email: jill@example.net
+  status: cancelled
+  show: one
+
+jane:
+  code: 1k7b
+  name: Jane
+  email: jane@example.co.uk
+  status: accepted
+  show: two

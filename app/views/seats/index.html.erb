@@ -1,0 +1,33 @@
+<h1>Listing seats</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Image path free</th>
+    <th>Image path selected</th>
+    <th>Image path taken</th>
+    <th>Position x</th>
+    <th>Position y</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @seats.each do |seat| %>
+  <tr>
+    <td><%= seat.name %></td>
+    <td><%= seat.image_path_free %></td>
+    <td><%= seat.image_path_selected %></td>
+    <td><%= seat.image_path_taken %></td>
+    <td><%= seat.position_x %></td>
+    <td><%= seat.position_y %></td>
+    <td><%= link_to 'Show', seat %></td>
+    <td><%= link_to 'Edit', edit_seat_path(seat) %></td>
+    <td><%= link_to 'Destroy', seat, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Seat', new_seat_path %>
