@@ -9,6 +9,7 @@ class RegistrationTest < ActiveSupport::TestCase
 			status: Status::PENDING,
 			show: shows(:one)
 		)
+		@reg.seat_reservations << SeatReservation.new(seat: seats(:two), registration: @reg)
 	end
 
 	test 'registration must not be empty' do
@@ -36,13 +37,15 @@ class RegistrationTest < ActiveSupport::TestCase
 		#	@reg.errors[:code].join('; ')
 	end
 
+
+
 	test 'code must consist of 4 alphanumeric chars' do
 		ok = %w{a3er 1234 aaaa}
 		nok = %w{a5d a$23 a5rfx ar-t}
 
 		ok.each do |code|
 			@reg.code = code
-			assert @reg.valid?, "#{code} should not be invalid"
+			assert @reg.valid?, "#{code} should not be invalid\nErrors: #{@reg.errors.to_hash}"
 		end
 
 		nok.each do |code|
@@ -91,6 +94,11 @@ class RegistrationTest < ActiveSupport::TestCase
 
 	test 'maximal 2 seat reservations per registration' do
 		@reg.show = shows(:two)
+		
+		@reg.seat_reservations.destroy_all
+		assert !@reg.save, 'Registration should not save without any seat reservations'
+		assert_equal "Bitte w&auml;hle einen freien Platz aus.",
+			@reg.errors[:base].join('; ')
 
 		@reg.seat_reservations.build(seat_id: seats(:one).id)
 		assert @reg.save, "Registration should save with 1 seat reservation.\nErrors: #{@reg.errors.to_hash}"

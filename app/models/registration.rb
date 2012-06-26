@@ -14,21 +14,29 @@ class Registration < ActiveRecord::Base
 	validates :name, uniqueness: {scope: [:show_id, :email], case_sensitive: false}
 	validates :email, format: /^[a-z0-9\-_.]+@[a-z0-9\-]+(\.[a-z0-9\-]+)+$/
 	validates :status, inclusion: STATUSES
-	validate :max_two_seats_per_registration, :seats_available
+	validate :seat_reservation_count, :seats_available
 
 	def email=(email)
 		write_attribute(:email, email.downcase)
 	end
 
 	protected
-	def max_two_seats_per_registration
-		errors.add(:base, I18n.t('todo'))	if seat_reservations.length > 2 #TODO
+	def seat_reservation_count
+		unless validation_context.nil?
+			if seat_reservations.length < 1
+				errors.add(:base, "Bitte w&auml;hle einen freien Platz aus.".html_safe)
+			elsif seat_reservations.length > 2
+				errors.add(:base, 'Du kannst maximal 2 Pl&auml;tze reservieren.'.html_safe)
+			end
+		end
 	end
 
 	def seats_available
 		seat_reservations.each do |reservation|
-			unless show.seat_available?(reservation.seat)
-				errors.add(:base, I18n.t("Seat #{reservation.seat.name} is already taken.")) #TODO
+			unless show.nil? or show.seat_available?(reservation.seat)
+				errors.add(:base, "Da war wohl jemand schneller...\n"+
+						"Der Platz #{reservation.seat.name} ist bereits reserviert worden. "+
+						'Bitte w&auml;hle einen anderen!'.html_safe)
 			end
 		end
 	end

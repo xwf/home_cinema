@@ -1,3 +1,21 @@
-// Place all the styles related to the Shows controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+$radius: 20px;
+
+.show_date {
+  font-weight: bold;
+  font-size: 1.1em;
+  padding: 5px $radius;
+  margin-bottom: 10px;
+}
+
+.show_text {
+  padding: 0 $radius;
+}
+
+.admin_actions {
+  padding: 0 $radius;
+}
+
+.registrations {
+  float: left;
+  padding: 3px 0;
+}

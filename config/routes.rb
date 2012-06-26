@@ -1,9 +1,11 @@
 HomeCinema::Application.routes.draw do
   
+  get 'admin', controller: 'admin', action: 'index'
+
   resources :shows, shallow: true do
 		resources :movie_suggestions, path: :suggestions
-		resources :registrations do
-			resources :votes
+		resources :registrations, except: :destroy do
+			resources :votes, only: [:index, :create]
 			resource :movie_suggestion, path: :suggestion
 		end
 	end

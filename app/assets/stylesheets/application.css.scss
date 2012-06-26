@@ -1,0 +1,123 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require_tree .
+ */
+
+
+$radius: 20px;
+
+@mixin shadow($blur) {
+  -moz-box-shadow: 0 0 $blur #333;
+  -webkit-box-shadow: 0 0 $blur #333;
+  box-shadow: 0 0 $blur #333;
+}
+
+@mixin gradient($start, $stop) {
+  background-color: $start;
+  background-image: -webkit-gradient( linear, left top, left bottom, color-stop(0.01, $start), color-stop(1, $stop) );
+  background-image: -moz-linear-gradient( center top, $start 1%, $stop 100% );
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$start}', endColorstr='#{$stop}');
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$start}', endColorstr='#{$stop}')";
+}
+
+@mixin radiusTop($radius) {
+  top-left-radius: $radius;
+  top-right-radius: $radius;
+}
+
+@mixin roundedCornersTop($radius) {
+  -moz-border: {
+    @include radiusTop($radius);
+  }
+  -webkit-border: {
+    @include radiusTop($radius);
+  }
+  border: {
+    @include radiusTop($radius);
+    style: none;
+  }
+}
+
+@mixin roundedCorners($radius) {
+  -moz-border: {
+    radius: $radius;
+  }
+  -webkit-border: {
+    radius: $radius;
+  }
+  border: {
+    radius: $radius;
+    style: none;
+  }
+}
+
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #EEE;
+  color: #303030;
+}
+
+#content {
+  margin: 50px auto;
+  width: 800px;
+}
+
+.black {
+  @include gradient(#292929, #1B1B1B);
+  color: white;
+}
+
+.red {
+  @include gradient(#D91B1B, #961313);
+  color: white;
+}
+
+.alignleft {
+  float: left;
+}
+
+.alignright {
+  float: right;
+}
+
+.rounded-corners-top {
+  @include roundedCornersTop($radius);
+}
+
+.box {
+  @include roundedCorners($radius);
+  @include shadow(5px);
+
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  background-color: white;
+}
+
+.button {
+  border: {
+    radius: $radius;
+    style: none;
+  }
+  text-decoration: none;
+  padding: 3px 10px;
+
+  @include shadow(3px);
+}
+
+.heading {
+  font: {
+    size: 2em;
+    weight: bold;
+  }
+  padding: 5px $radius;
+}

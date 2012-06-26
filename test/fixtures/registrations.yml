@@ -14,6 +14,27 @@ jill:
   status: cancelled
   show: one
 
+jeff:
+  code: jd6s
+  name: Jeff
+  email: jeff@example.org
+  status: accepted
+  show: one
+
+jim:
+  code: ii8g
+  name: Jim
+  email: jim@example.org
+  status: denied
+  show: one
+
+jack:
+  code: 9gck
+  name: Jack
+  email: jack@example.org
+  status: accepted
+  show: one
+
 jane:
   code: 1k7b
   name: Jane

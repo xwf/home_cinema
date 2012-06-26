@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120611101805) do
+ActiveRecord::Schema.define(:version => 20120615092844) do
 
   create_table "movie_suggestions", :force => true do |t|
     t.integer  "movie_id",        :null => false
@@ -42,6 +42,8 @@ ActiveRecord::Schema.define(:version => 20120611101805) do
     t.datetime "created_at",              :null => false
     t.datetime "updated_at",              :null => false
   end
+
+  add_index "registrations", ["code"], :name => "index_registrations_on_code"
 
   create_table "seat_reservations", :force => true do |t|
     t.integer  "registration_id"

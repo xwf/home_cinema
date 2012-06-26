@@ -1,0 +1,18 @@
+BACKEND
+
+shows: index, show, new/create, edit/update, delete, feature_movie
+	registrations: index, approve, deny, cancel
+	seat_reservations: index
+	movie_suggestions: index, approve/deny, new/create, edit/update, delete
+		movies: new/create
+	votes: index
+seats: index, new/create, edit/update, delete
+
+FRONTEND
+
+shows: index, show
+	registrations: show, new/create, edit/update, cancel
+		seat_reservations: index, new/create, edit/update, delete
+		votes: index, create
+		movie_suggestion: new/create, edit/update, delete
+			movie: new/create

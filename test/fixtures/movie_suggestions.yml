@@ -3,3 +3,22 @@
 one:
   movie: blade
   show: one
+  status: accepted
+
+two:
+  movie: test1
+  show: one
+  registration: joe
+  status: pending
+
+three:
+  movie: test2
+  show: one
+  registration: jill
+  status: accepted
+
+four:
+  movie: test3
+  show: one
+  registration: jack
+  status: accepted

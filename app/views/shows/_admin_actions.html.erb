@@ -1,0 +1,9 @@
+<div class="admin_actions">
+	<span class="registrations">
+		<%= pluralize show.accepted_registrations.length, 'Anmeldung', 'Anmeldungen' -%>
+		<%= pluralize_if_any show.pending_registrations.length, 'Anfrage', 'Anfragen' -%>
+		<%= pluralize_if_any show.pending_user_suggestions.length, 'Filmanfrage', 'Filmanfragen' -%>
+	</span>
+	<a href="#" class="red button alignright">Bearbeiten</a>
+	<br style="clear: both;" />
+</div>
