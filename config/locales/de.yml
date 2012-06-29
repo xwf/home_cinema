@@ -115,6 +115,19 @@ de:
       skip_last_comma: true
 
   activerecord:
+    models:
+      movie: Film
+      movie_suggestion: Filmvorschlag
+      registration: Anmeldung
+      seat: Sitzplatz
+      seat_reservation: Platzreservierung
+      show: Vorstellung
+      vote: Bewertung
+    attributes:
+      show:
+        date: Termin
+        text: Text
+        movie_suggestions_allowed: Filmvorschläge erlaubt
     errors:
       template:
         header:

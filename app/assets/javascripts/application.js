@@ -11,5 +11,9 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
+//= require jquery-ui
+//= require jquery-ui-timepicker-addon.js
+//= require jquery-ui-timepicker-de.js
+//= require jquery.ui.datepicker-de.js
 //= require jquery_ujs
 //= require_tree .

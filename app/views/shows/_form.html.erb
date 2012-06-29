@@ -12,18 +12,18 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :date %><br />
-    <%= f.datetime_select :date %>
+    <%= f.label :date %>
+    <%= f.datetime_picker :date, size: 20 %>
   </div>
   <div class="field">
-    <%= f.label :text %><br />
+    <%= f.label :text %>
     <%= f.text_area :text %>
   </div>
   <div class="field">
-    <%= f.label :movie_suggestions_allowed %><br />
+    <%= f.label :movie_suggestions_allowed %>
     <%= f.check_box :movie_suggestions_allowed %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit 'Vorstellung erstellen' %>
   </div>
 <% end %>
