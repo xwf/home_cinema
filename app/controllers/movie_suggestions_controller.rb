@@ -1,9 +1,12 @@
 
 class MovieSuggestionsController < ApplicationController
-  # GET /movie_suggestions
+
+	before_filter :init_fields
+
+	# GET /movie_suggestions
   # GET /movie_suggestions.json
-  def index
-    @movie_suggestions = MovieSuggestion.all
+  def index		
+    @movie_suggestions = @show.movie_suggestions
 
     respond_to do |format|
       format.html # index.html.erb
@@ -14,8 +17,6 @@ class MovieSuggestionsController < ApplicationController
   # GET /movie_suggestions/1
   # GET /movie_suggestions/1.json
   def show
-    @movie_suggestion = MovieSuggestion.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @movie_suggestion }
@@ -25,7 +26,9 @@ class MovieSuggestionsController < ApplicationController
   # GET /movie_suggestions/new
   # GET /movie_suggestions/new.json
   def new
-    @movie_suggestion = MovieSuggestion.new
+		@movie_suggestion = @show.movie_suggestions.build(
+			registration_id: params[:registration_id] )
+		@movie = Movie.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -35,13 +38,13 @@ class MovieSuggestionsController < ApplicationController
 
   # GET /movie_suggestions/1/edit
   def edit
-    @movie_suggestion = MovieSuggestion.find(params[:id])
+    @movie = @movie_suggestion.movie
   end
 
   # POST /movie_suggestions
   # POST /movie_suggestions.json
   def create
-    @movie_suggestion = MovieSuggestion.new(params[:movie_suggestion])
+    @movie_suggestion = @show.movie_suggestions.build(params[:movie_suggestion])
 
     respond_to do |format|
       if @movie_suggestion.save
@@ -57,8 +60,6 @@ class MovieSuggestionsController < ApplicationController
   # PUT /movie_suggestions/1
   # PUT /movie_suggestions/1.json
   def update
-    @movie_suggestion = MovieSuggestion.find(params[:id])
-
     respond_to do |format|
       if @movie_suggestion.update_attributes(params[:movie_suggestion])
         format.html { redirect_to @movie_suggestion, notice: 'Movie suggestion was successfully updated.' }
@@ -73,7 +74,6 @@ class MovieSuggestionsController < ApplicationController
   # DELETE /movie_suggestions/1
   # DELETE /movie_suggestions/1.json
   def destroy
-    @movie_suggestion = MovieSuggestion.find(params[:id])
     @movie_suggestion.destroy
 
     respond_to do |format|
@@ -81,4 +81,17 @@ class MovieSuggestionsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+	protected
+	def init_fields
+		if params[:id]
+			@movie_suggestion = MovieSuggestion.find(params[:id])
+			@show = @movie_suggestion.show
+		elsif params[:show_id]
+			@show = Show.find(params[:show_id])
+		elsif params[:registration_id]
+			# Could be optimized to a single SQL query
+			@show = Registration.find(params[:registration_id]).show
+		end
+	end
 end

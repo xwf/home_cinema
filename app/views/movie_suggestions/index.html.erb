@@ -1,29 +1,3 @@
-<h1>Listing movie_suggestions</h1>
-
-<table>
-  <tr>
-    <th>Movie</th>
-    <th>Show</th>
-    <th>Registration</th>
-    <th>Comment</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @movie_suggestions.each do |movie_suggestion| %>
-  <tr>
-    <td><%= movie_suggestion.movie_id %></td>
-    <td><%= movie_suggestion.show_id %></td>
-    <td><%= movie_suggestion.registration_id %></td>
-    <td><%= movie_suggestion.comment %></td>
-    <td><%= link_to 'Show', movie_suggestion %></td>
-    <td><%= link_to 'Edit', edit_movie_suggestion_path(movie_suggestion) %></td>
-    <td><%= link_to 'Destroy', movie_suggestion, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Movie suggestion', new_movie_suggestion_path %>
+<div class="box heading red">Filmvorschläge für <%=l! @show.date.to_date %></div>
+<%= render @movie_suggestions %>
+<%= link_to 'Neuer Filmvorschlag', new_show_movie_suggestion_path(@show), class: 'button red' %>

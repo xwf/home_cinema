@@ -1,7 +1,5 @@
-<div class="box heading red">
-	Nächste Vorstellungen
+<div class="page-header">
+	<h1>Nächste Vorstellungen</h1>
 </div>
-<div id="shows">
-	<%= render @shows, admin: true %>
-</div>
-<%= link_to 'Neue Vorstellung', new_show_path, class: 'button red' %>
+<%= render @shows, admin: true %>
+<%= link_to 'Neue Vorstellung', new_show_path, class: 'btn' %>

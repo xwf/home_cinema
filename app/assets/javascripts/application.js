@@ -16,4 +16,7 @@
 //= require jquery-ui-timepicker-de.js
 //= require jquery.ui.datepicker-de.js
 //= require jquery_ujs
+//= require autocomplete-rails
+//= require jquery.ui.autocomplete.html.js
+//= require bootstrap
 //= require_tree .

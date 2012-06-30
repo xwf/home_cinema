@@ -21,7 +21,14 @@ group :assets do
 end
 
 gem 'jquery-rails'
-gem 'jquery_datepicker'
+#gem 'jquery_datepicker'
+
+gem 'bootstrap-sass'
+gem 'simple_form'
+gem 'rails3-jquery-autocomplete'
+
+gem 'rails_config'
+gem 'httparty'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

@@ -1,4 +1,4 @@
-
+require 'moviepilot_api'
 class MoviesController < ApplicationController
   # GET /movies
   # GET /movies.json
@@ -81,4 +81,19 @@ class MoviesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+	def search
+		api = MoviepilotApi.new(Settings.moviepilot.api.key)
+		@data = api.movie_search(params[:term], per_page: 5)
+
+		if @data.has_key?('total_entries') and @data['total_entries'] > 0
+			result = @data['movies'].map do |movie_data|
+				{label: render_to_string(partial: 'movies/search_preview', locals: {data: movie_data}),
+					value: movie_data['display_title']}
+			end
+			render json: result
+		else
+			head :no_content
+		end		
+	end
 end

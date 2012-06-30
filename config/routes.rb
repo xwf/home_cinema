@@ -11,7 +11,9 @@ HomeCinema::Application.routes.draw do
 	end
 
 	resources :seats
-  resources :movies
+  resources :movies do
+		get 'search', on: :collection
+	end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -1,9 +1,10 @@
-<div class="admin_actions">
-	<span class="registrations">
-		<%= pluralize show.accepted_registrations.length, 'Anmeldung', 'Anmeldungen' -%>
-		<%= pluralize_if_any show.pending_registrations.length, 'Anfrage', 'Anfragen' -%>
-		<%= pluralize_if_any show.pending_user_suggestions.length, 'Filmanfrage', 'Filmanfragen' -%>
-	</span>
-	<%= link_to 'Bearbeiten', edit_show_path(show), class: 'button red alignright' %>
-	<div class="clear" />
-</div>
+<p class="registrations">
+	<span class="accepted"><%= pluralize show.accepted_registrations.length, 'Anmeldung', 'Anmeldungen' -%></span>
+	<span class="pending"><%= pluralize_if_any show.pending_registrations.length, 'Anfrage', 'Anfragen' -%></span>
+</p>
+<p>
+	<%= link_to 'Bearbeiten', edit_show_path(show), class: 'btn' %>
+	<%= link_to 'Löschen', show, confirm: 'Wirklich löschen?', method: :delete,
+			class: 'btn btn-danger' %>
+</p>
+

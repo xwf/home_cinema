@@ -1,33 +1,11 @@
-<%= form_for(@movie_suggestion) do |f| %>
-  <% if @movie_suggestion.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@movie_suggestion.errors.count, "error") %> prohibited this movie_suggestion from being saved:</h2>
+<%= simple_form_for [@show, @movie_suggestion], html: {class: 'form-horizontal'} do |f| %>
+	<%= f.input :registration_id, as: :hidden %>
 
-      <ul>
-      <% @movie_suggestion.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+	<%= simple_fields_for @movie do |mf| %>
+		<%= mf.input :title, as: :autocomplete, url: search_movies_path %>
+	<% end %>
 
-  <div class="field">
-    <%= f.label :movie_id %><br />
-    <%= f.number_field :movie_id %>
-  </div>
-  <div class="field">
-    <%= f.label :show_id %><br />
-    <%= f.number_field :show_id %>
-  </div>
-  <div class="field">
-    <%= f.label :registration_id %><br />
-    <%= f.number_field :registration_id %>
-  </div>
-  <div class="field">
-    <%= f.label :comment %><br />
-    <%= f.text_area :comment %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+	<%= f.input :comment %>
+	<%= f.button :submit, class: 'btn btn-primary' %>
 <% end %>
+<div id="movie_suggestion_box"></div>

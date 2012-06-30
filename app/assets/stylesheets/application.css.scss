@@ -14,7 +14,15 @@
 *= require jquery-ui-timepicker-addon.css
 */
 
+$baseFontSize: 15px;
+$baseLineHeight: 20px;
+@import "bootstrap";
 
+body {
+  padding-top: 60px;
+}
+
+/*
 $radius: 20px;
 
 @mixin shadow($blur) {
@@ -65,8 +73,10 @@ $radius: 20px;
 
 body {
   font-family: Arial, sans-serif;
-  background-color: #EEE;
+  font-size: 12pt;
   color: #303030;
+  background-color: #EEE;
+  cursor: default;
 }
 
 #content {
@@ -108,8 +118,10 @@ body {
   @include shadow(5px);
 
   margin-bottom: 10px;
-  padding-bottom: 10px;
+  padding-bottom: 20px;
   background-color: white;
+
+  position: relative;
 }
 
 .button {
@@ -117,9 +129,14 @@ body {
     radius: $radius;
     style: none;
   }
-  text-decoration: none;
-  padding: 3px 10px;
 
+  font-size: 1em;
+  text-decoration: none;
+  cursor: pointer;
+
+  padding: 3px 10px;
+  margin: 0;
+  
   @include shadow(3px);
 }
 
@@ -130,3 +147,39 @@ body {
   }
   padding: 5px $radius;
 }
+
+form {
+  margin: $radius;
+  margin-bottom: 0;
+
+  .field {
+
+    margin: 5px 0;
+
+    label {
+      width: 128px;
+      float: left;
+      padding-top: 3px;
+      margin-right: 2px;
+      display: block;
+    }
+  }
+
+  .actions {
+    clear: both;
+    padding-top: 20px;
+  }
+}
+
+#movie_suggestion_box {
+  display: none;
+  position: absolute;
+  z-index: 10000;
+  top: 90px;
+  left: 150px;
+  width: 200px;
+  height: 300px;
+  
+  @include shadow(5px);
+}
+*/

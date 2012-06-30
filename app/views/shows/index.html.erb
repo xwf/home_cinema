@@ -12,7 +12,7 @@
 
 <% @shows.each do |show| %>
   <tr>
-    <td><%= show.date %></td>
+    <td><%=l show.date %></td>
     <td><%= show.text %></td>
     <td><%= show.movie_suggestions_allowed %></td>
     <td><%= link_to 'Show', show %></td>

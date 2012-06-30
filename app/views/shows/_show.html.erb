@@ -1,8 +1,7 @@
-<div class="box">
-	<div class="rounded-corners-top red show_date"><%=l show.date, format: :long %></div>
-	<div class="show_text"><%= show.text %></div>
-	<div class="suggestions">
-		<%= render show.movie_suggestions %>
-	</div>
-	<%= render (admin ? 'shows/admin_actions' : 'shows/user_actions'), show: show %>
+<h3><%=l! show.date, format: :long %></h3>
+<p><%= show.text %></p>
+<div class="suggestions">
+	<%= render show.movie_suggestions %>
 </div>
+<%= render (admin ? 'shows/admin_actions' : 'shows/user_actions'), show: show %>
+<hr/>

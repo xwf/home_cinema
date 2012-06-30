@@ -4,10 +4,10 @@ class ShowTest < ActiveSupport::TestCase
   test 'date must be in the future' do
 		show = Show.new(date: '2012-02-26 19:00:00')
 		assert show.invalid?, 'Show should not be valid'
-		assert_equal 'Das Datum muss in der Zukunft liegen.', show.errors[:date].join('; ')
+		assert_equal 'muss in der Zukunft liegen.', show.errors[:date].join('; ')
 
 		assert !show.update_attributes(date: DateTime.current), 'Update should fail'
-		assert_equal 'Das Datum muss in der Zukunft liegen.', show.errors[:date].join('; ')
+		assert_equal 'muss in der Zukunft liegen.', show.errors[:date].join('; ')
 	end
 
 	test 'date must be present' do

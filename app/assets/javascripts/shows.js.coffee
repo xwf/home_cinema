@@ -1,1 +1,1 @@
-#jQuery -> $('#show_date').datepicker()
+jQuery -> $('#show_date').datetimepicker()

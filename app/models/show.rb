@@ -20,7 +20,6 @@ class Show < ActiveRecord::Base
 	has_many :own_suggestions, class_name: 'MovieSuggestion',
 		conditions: {registration_id: nil, status: Status::ACCEPTED}
 
-
 	belongs_to :featured_movie, class_name: 'Movie'
 	has_many :votes, through: :registrations
 	has_many :seat_reservations, through: :registrations
@@ -42,7 +41,7 @@ class Show < ActiveRecord::Base
 		if date.nil?
 			errors.add(:date, :blank)
 		else
-			errors.add(:date, 'Das Datum muss in der Zukunft liegen.') unless date > DateTime.current
+			errors.add(:date, 'muss in der Zukunft liegen.') unless date.future?
 		end
 	end
 end
