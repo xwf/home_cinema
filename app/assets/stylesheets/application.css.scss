@@ -22,6 +22,10 @@ body {
   padding-top: 60px;
 }
 
+[class^="icon-"], [class*=" icon-"] {
+  margin-top: 2px;
+}
+
 /*
 $radius: 20px;
 

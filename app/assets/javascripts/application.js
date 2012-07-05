@@ -20,3 +20,5 @@
 //= require jquery.ui.autocomplete.html.js
 //= require bootstrap
 //= require_tree .
+
+//$('form').tooltip({selector: 'abbr'});

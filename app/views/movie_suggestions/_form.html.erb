@@ -1,6 +1,5 @@
 <%= simple_form_for [@show, @movie_suggestion], html: {class: 'form-horizontal'} do |f| %>
 	<%= f.input :registration_id, as: :hidden %>
-
 	<%= simple_fields_for @movie do |mf| %>
 		<%= mf.input :title, as: :autocomplete, url: search_movies_path %>
 	<% end %>
@@ -8,4 +7,3 @@
 	<%= f.input :comment %>
 	<%= f.button :submit, class: 'btn btn-primary' %>
 <% end %>
-<div id="movie_suggestion_box"></div>

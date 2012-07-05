@@ -1,0 +1,55 @@
+.ui-autocomplete {
+
+  li.ui-menu-item {    
+    border-bottom: 1px solid #EEE;
+  }
+
+  li.ui-menu-item:last-child {
+    border-bottom: none;
+  }
+
+  .search-result {
+    width: 300px;
+    vertical-align: top;
+    line-height: 1.2;
+
+    img {
+      float: left;
+      margin-right: 3px;
+    }
+
+    .movie_title {
+      margin-top: 3px;
+    }
+  }
+}
+
+#search-modal {
+
+  margin-top: -320px;
+
+  #search-results {
+    max-height: inherit;
+    padding-bottom: 0;
+  }
+
+  .search-result {
+    vertical-align: top;
+    border-top: 1px solid #EEE;
+    padding: 3px 0;
+  }
+  
+  .search-result:first-child {
+    border-top: none;
+    padding-top: 0;
+  }
+
+  .search-result:last-child {
+    padding-bottom: 0;
+  }
+
+  img {
+    float: left;
+    margin-right: 5px;
+  }
+}

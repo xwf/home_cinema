@@ -1,8 +1,4 @@
-<div class="box">
-	<div class="rounded-corners-top heading red">Neuer Filmvorschlag für <%=l! @show.date.to_date %></div>
-	<%= render 'form' %>
+<div class="page-header">
+	<h1>Neuer Filmvorschlag für <%=l! @show.date.to_date %></h1>
 </div>
-
-
-
-<%= link_to 'Back', show_movie_suggestions_path(@show) %>
+<%= render 'movie_search' %>
