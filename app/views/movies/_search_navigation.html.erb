@@ -1,6 +1,17 @@
-<%#
-# To change this template, choose Tools | Templates
-# and open the template in the editor.
-%>
-
-<%= "_search_navigation.html" %>
+<% page_count = (@response_data['total_entries']/5.0).ceil -%>
+<ul>
+	<li id="prev" class="disabled">
+		<%= link_to '«', '#prev' %>
+	</li>
+	<li class="active" id="page1">
+		<%= link_to '1', '#1' %>
+	</li>
+	<% for i in 2..page_count %>
+		<%= content_tag :li, id: "page#{i}", style: ('display: none;' if i > 9) do %>
+			<%= link_to i, '#'+i.to_s%>
+		<% end -%>
+	<% end %>
+	<%= content_tag :li, id: 'next', class: ('disabled' if page_count <= 1) do %>
+			<%= link_to '»', '#next' %>
+	<%end%>
+</ul>

@@ -1,0 +1,21 @@
+<%= simple_form_for :movie_search, remote: true, url: search_movies_path, method: :get,
+		html: {id: 'movie_search_form', class: 'form-search'} do |search_form| %>
+	<%= search_form.input :query, wrapper: :append, label: false do %>
+		<%= search_form.input_field :query, name: 'query', class: 'search-query',
+				as: :autocomplete, url: search_movies_path
+		%><%=	content_tag :button, class: 'btn' do %>
+			<i class="icon-search"></i>
+		<% end %>
+	<% end %>
+<% end %>
+<div id="movie_suggestion_box"></div>
+<div id="search_modal" class="modal fade hide">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">&times;</button>
+		<h2 id="search_header"></h2>
+	</div>
+	<div id="search_results" class="modal-body">
+		<%= image_tag 'ajax-loader.gif', class: 'loader' %>
+	</div>
+	<div id="search_nav" class="pagination pagination-centered"></div>
+</div>

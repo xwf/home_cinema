@@ -1,6 +1,1 @@
-<%#
-# To change this template, choose Tools | Templates
-# and open the template in the editor.
-%>
-
-<%= "_search_header.html" %>
+<%= pluralize @response_data['total_entries'], 'Ergebnis', 'Ergebnisse' %> f&uuml;r '<%= params['query'] %>'

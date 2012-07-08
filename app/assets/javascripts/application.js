@@ -21,4 +21,5 @@
 //= require bootstrap
 //= require_tree .
 
-//$('form').tooltip({selector: 'abbr'});
+max = Math.max;
+min = Math.min;

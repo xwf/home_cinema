@@ -1,0 +1,11 @@
+<table>
+  <tr>
+    <td><%= movie_suggestion.movie_id %></td>
+    <td><%= movie_suggestion.show_id %></td>
+    <td><%= movie_suggestion.registration_id %></td>
+    <td><%= movie_suggestion.comment %></td>
+    <td><%= link_to 'Show', movie_suggestion %></td>
+    <td><%= link_to 'Edit', edit_movie_suggestion_path(movie_suggestion) %></td>
+    <td><%= link_to 'Destroy', movie_suggestion, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+</table>

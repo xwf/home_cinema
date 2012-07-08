@@ -4,9 +4,9 @@ class MovieTest < ActiveSupport::TestCase
 	setup do
 		@movie = Movie.new(
 			title: 'Lost in Translation',
-			year: 2004,
+			production_year: 2004,
 			description: 'bla',
-			length: 118
+			runtime: 118
 		)
 	end
 
@@ -15,14 +15,14 @@ class MovieTest < ActiveSupport::TestCase
 		movie = Movie.new
 		assert movie.invalid?
 		assert movie.errors[:title].any?
-		assert movie.errors[:year].any?
+		assert movie.errors[:production_year].any?
 		assert movie.errors[:description].any?
-		assert movie.errors[:length].any?
+		assert movie.errors[:runtime].any?
 	end
 
-	test 'title / year must be unique' do
+	test 'title/production year must be unique' do
 		@movie.title = movies(:matrix).title
-		@movie.year = movies(:matrix).year
+		@movie.production_year = movies(:matrix).production_year
 
 		assert !@movie.save
 		assert @movie.errors[:title].any?
@@ -35,38 +35,47 @@ class MovieTest < ActiveSupport::TestCase
 		#assert_equal I18n.translate('activerecord.errors.messages.taken'),
 		#	@movie.errors[:title].join('; ')
 
-		@movie.year = 2010
+		@movie.production_year = 2010
 		assert @movie.save
 	end
 
-	test 'movie length must be at least 10 minutes' do
-		@movie.length = 5
-		assert @movie.invalid?
-		assert @movie.errors[:length].any?
+	test 'movie runtime must be at least 10 minutes' do
+		@movie.runtime = 5
+		assert @movie.invalid?, 'Should not be valid'
+		assert @movie.errors[:runtime].any?, 'Should have an error for attribute runtime'
 
-		@movie.length = 10
+		@movie.runtime = 10
+		assert @movie.valid?, 'Should be valid'
+	end
+
+	test 'production year must be greater than 1920' do
+		@movie.production_year = 98
+		assert @movie.invalid?
+		assert @movie.errors[:production_year].any?
+
+		@movie.production_year = 1920
+		assert @movie.invalid?
+		assert @movie.errors[:production_year].any?
+
+		@movie.production_year = 1955
 		assert @movie.valid?
 	end
 
-	test 'year must be greater than 1920' do
-		@movie.year = 98
+	test 'production year must not be in the future' do
+		@movie.production_year = 2015
 		assert @movie.invalid?
-		assert @movie.errors[:year].any?
+		assert @movie.errors[:production_year].any?
 
-		@movie.year = 1920
-		assert @movie.invalid?
-		assert @movie.errors[:year].any?
-
-		@movie.year = 1955
+		@movie.production_year = Date.current.year
 		assert @movie.valid?
 	end
 
-	test 'year must not be in the future' do
-		@movie.year = 2015
-		assert @movie.invalid?
-		assert @movie.errors[:year].any?
+	test 'moviepilot url must be unique' do
+		@movie.moviepilot_url = 'http://www.moviepilot.de/movies/matrix'
+		assert @movie.invalid?, 'Should not be valid'
+		assert @movie.errors[:moviepilot_url].any?, 'Should have an error for attribute moviepilot_url'
 
-		@movie.year = Date.current.year
-		assert @movie.valid?
+		@movie.moviepilot_url = 'http://www.moviepilot.de/movies/lost-in-translation'
+		assert @movie.valid?, 'Should be valid'
 	end
 end

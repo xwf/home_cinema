@@ -3,41 +3,42 @@
 matrix:
   title: Matrix
   description: bla bla blä
-  length: 132
-  year: 1999
+  runtime: 132
+  production_year: 1999
+  moviepilot_url: http://www.moviepilot.de/movies/matrix
 
 blade:
   title: Blade
   description: bla bla bla
-  length: 144
-  year: 2003
+  runtime: 144
+  production_year: 2003
 
 test1:
   title: Test1
   description: bla bla bla
-  length: 144
-  year: 2003
+  runtime: 144
+  production_year: 2003
 
 test2:
   title: Test2
   description: bla bla bla
-  length: 144
-  year: 2003
+  runtime: 144
+  production_year: 2003
 
 test3:
   title: Test3
   description: bla bla bla
-  length: 144
-  year: 2003
+  runtime: 144
+  production_year: 2003
 
 test4:
   title: Test4
   description: bla bla bla
-  length: 144
-  year: 2003
+  runtime: 144
+  production_year: 2003
 
 test5:
   title: Test5
   description: bla bla bla
-  length: 144
-  year: 2003
+  runtime: 144
+  production_year: 2003

@@ -24,32 +24,56 @@
   }
 }
 
-#search-modal {
+#search_modal {
 
   margin-top: -320px;
 
-  #search-results {
-    max-height: inherit;
-    padding-bottom: 0;
+  .modal-header {
+    height: 40px;
+  }
+
+  #search_results {
+    height: 487px;
+    max-height: 487px;
+    padding: 0 15px;
+
+    .loader {
+      margin: 227px 249px;
+    }
+
+    .search-error {
+      margin-top: 20px;
+      font-style: italic;
+      font-size: 16px;
+      line-height: 1.5;
+    }
   }
 
   .search-result {
     vertical-align: top;
-    border-top: 1px solid #EEE;
+    border-bottom: 1px solid #EEE;
+    height: 91px;
+    overflow: hidden;
     padding: 3px 0;
+
+    img {
+      float: left;
+      margin-right: 5px;
+    }
   }
+  
   
   .search-result:first-child {
     border-top: none;
-    padding-top: 0;
   }
 
   .search-result:last-child {
     padding-bottom: 0;
   }
 
-  img {
-    float: left;
-    margin-right: 5px;
+  #search_nav a {
+    min-width: 16px;
+    padding: 0 13px;
   }
+  
 }
