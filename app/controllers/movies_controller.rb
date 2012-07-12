@@ -41,7 +41,13 @@ class MoviesController < ApplicationController
   # POST /movies
   # POST /movies.json
   def create
-    @movie = Movie.new(params[:movie])
+		if moviepilot_url = params[:movie][:moviepilot_url]
+			api = MoviepilotApi.new(Settings.moviepilot.api.key)
+			movie_data = api.get_movie(moviepilot_url)
+			@movie = Movie.build_from_api_result(movie_data)
+		else
+			@movie = Movie.new(params[:movie])
+		end
 
     respond_to do |format|
       if @movie.save
@@ -83,40 +89,66 @@ class MoviesController < ApplicationController
   end
 
 	def search
-		# initialize API
-		api = MoviepilotApi.new(Settings.moviepilot.api.key)
-		@search_query = params[:query] || params[:term]
-		page = params[:page] || 1
+		search_query = params[:query] || params[:term]
 
-		until @search_query.nil? or @search_query.empty?
-			@response_data = api.movie_search(@search_query, {per_page: 5, page: page}, {timeout: 5}) rescue nil
-			break unless @response_data.is_a? Hash
-			if @response_data.has_key? 'total_entries' and @response_data['total_entries'] > 0
-				respond_to do |format|
+		if search_query.strip.length > 1
+			@page = params[:page] || 1
+			@movie_search = MovieSearch.find_or_initialize_by_query(search_query.downcase)
+			@movies = get_from_cache || get_from_api
+
+			@movie_search.save
+
+			respond_to do |format|
+				if @movies
 					format.js
 					format.json { render_preview_data }
+				else
+					format.js { render 'movies/search_failed' }
+					format.json { head :no_content }
 				end
-				return
-			elsif @response_data.has_key? 'suggestions'
-				@search_query = @response_data['suggestions'].first
-			else break
 			end
-		end
-
-		respond_to do |format|
-			format.js { render 'movies/search_failed' }
-			format.json { head :no_content }
+		else
+			head :no_content
 		end
 	end
 
 	private
-	def render_preview_data
-		result = @response_data['movies'].map do |search_result|
-			title = CGI::unescape_html(search_result['display_title'])
-			{label: render_to_string(partial: 'movies/search_result', formats: :html, locals: {search_result: search_result})}
+	def get_from_cache
+		MovieSearchResult.where(
+			movie_search_id: @movie_search.id,
+			result_number: [(@page-1)*5...@page*5]
+		).map { |result| result.movie } unless @movie_search.new_record?
+	end
+
+	def get_from_api
+		# initialize API
+		api = MoviepilotApi.new(Settings.moviepilot.api.key)
+
+		while
+			response_data = api.movie_search(@movie_search.query, {per_page: 5, page: @page}, {timeout: 5}) rescue nil
+			return nil unless response_data.is_a? Hash
+			if response_data.has_key? 'total_entries' and response_data['total_entries'] > 0
+				@movie_search.total_results = response_data['total_entries']
+				return response_data['movies'].each_with_index.map do |movie_data, i|
+					@movie_search.results.build(
+						movie: Movie.build_from_api_result(movie_data),
+						result_number: i
+					).movie
+				end				
+			elsif response_data.has_key? 'suggestions'
+				@movie_search.query = response_data['suggestions'].first
+			else
+				return nil
+			end
 		end
-		if @response_data['total_entries'] > 5
-			result << {label: "<em>Alle #{@response_data['total_entries']} Treffer anzeigen</em>"}
+	end
+
+	def render_preview_data
+		result = @movies.map do |movie|
+			{label: render_to_string(partial: 'movies/search_result', formats: :html, object: movie)}
+		end
+		if @movie_search.total_results > 5
+			result << {label: "<em>Alle #{@movie_search.total_results} Treffer anzeigen</em>"}
 		end
 		render json: result
 	end

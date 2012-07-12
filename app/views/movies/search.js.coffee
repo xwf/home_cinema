@@ -1,5 +1,5 @@
 # update modal content
-search_results.html "<%=j render partial: 'movies/search_result', collection: @response_data['movies'] %>"
+search_results.html "<%=j render partial: 'movies/search_result', collection: @movies %>"
 # if modal is hidden
 unless search_modal.hasClass 'initialized'
   # write modal title

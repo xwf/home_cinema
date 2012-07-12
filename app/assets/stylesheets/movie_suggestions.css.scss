@@ -33,12 +33,12 @@
   }
 
   #search_results {
-    height: 487px;
-    max-height: 487px;
+    height: 490px;
+    max-height: 490px;
     padding: 0 15px;
 
     .loader {
-      margin: 227px 249px;
+      margin: 229px 249px;
     }
 
     .search-error {
@@ -56,13 +56,22 @@
     overflow: hidden;
     padding: 3px 0;
 
+    .result-text {
+      height: 61px;
+    }
+
+    .result-form {
+      text-align: right;
+      margin: 0;
+    }
+
     img {
       float: left;
       margin-right: 5px;
     }
   }
   
-  
+  /*
   .search-result:first-child {
     border-top: none;
   }
@@ -70,6 +79,7 @@
   .search-result:last-child {
     padding-bottom: 0;
   }
+  */
 
   #search_nav a {
     min-width: 16px;

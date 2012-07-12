@@ -1,14 +1,9 @@
 module MoviesHelper
-	def poster_url(poster, format)
-		if poster.is_a? Hash
-			format = '_'+format unless format.nil? || format.empty?
-			"#{poster['base_url']+poster['photo_id']}/#{poster['file_name_base']+format}.#{poster['extension']}"
+	def poster_to_format(poster_url, format)
+		if poster_url
+			poster_url.gsub(/\.(?:jpg|jpeg|png|gif)$/i, "_#{format}\0")
 		else
-			'/assets/rails.png' #TODO
+			'placeholder.png'
 		end
-	end
-
-	def unescape(str)
-		CGI::unescape_html(str)
 	end
 end

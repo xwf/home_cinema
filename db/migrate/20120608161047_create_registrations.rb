@@ -9,5 +9,7 @@ class CreateRegistrations < ActiveRecord::Migration
 
       t.timestamps
     end
+
+		add_index :registrations, :code, unique: true
   end
 end

@@ -11,7 +11,26 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120615092844) do
+ActiveRecord::Schema.define(:version => 20120712230835) do
+
+  create_table "movie_search_results", :force => true do |t|
+    t.integer  "result_number"
+    t.integer  "movie_search_id"
+    t.integer  "movie_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  add_index "movie_search_results", ["movie_search_id", "result_number"], :name => "index_movie_search_results_on_movie_search_id_and_result_number", :unique => true
+
+  create_table "movie_searches", :force => true do |t|
+    t.string   "query"
+    t.integer  "total_results"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "movie_searches", ["query"], :name => "index_movie_searches_on_query", :unique => true
 
   create_table "movie_suggestions", :force => true do |t|
     t.integer  "movie_id",        :null => false
@@ -34,6 +53,8 @@ ActiveRecord::Schema.define(:version => 20120615092844) do
     t.datetime "updated_at",      :null => false
   end
 
+  add_index "movies", ["moviepilot_url"], :name => "index_movies_on_moviepilot_url", :unique => true
+
   create_table "registrations", :force => true do |t|
     t.string   "code",       :limit => 4, :null => false
     t.string   "name"
@@ -44,7 +65,7 @@ ActiveRecord::Schema.define(:version => 20120615092844) do
     t.datetime "updated_at",              :null => false
   end
 
-  add_index "registrations", ["code"], :name => "index_registrations_on_code"
+  add_index "registrations", ["code"], :name => "index_registrations_on_code", :unique => true
 
   create_table "seat_reservations", :force => true do |t|
     t.integer  "registration_id"
