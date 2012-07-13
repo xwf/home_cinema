@@ -7,12 +7,11 @@ class Movie < ActiveRecord::Base
 	validates :runtime, numericality: {greater_than_or_equal_to: 10}
 	validates :production_year, numericality: {greater_than: 1920,
 																	less_than_or_equal_to: Date.current.year}
-	validates :title, uniqueness: {scope: :production_year, case_sensitive: false}
 	validates :moviepilot_url, uniqueness: true, allow_nil: true
 
 	def self.build_from_api_result(movie_data)
 		movie = self::find_or_initialize_by_moviepilot_url(movie_data['restful_url'])
-		movie.update_attributes(
+		movie.assign_attributes(
 			title: CGI::unescape_html(movie_data['display_title']),
 			description: self::description_to_html(movie_data['plain_short_description']),
 			runtime: movie_data['runtime'],
@@ -22,6 +21,7 @@ class Movie < ActiveRecord::Base
 	end
 
 	private
+	# TODO: Is it a good idea to save HTML in the DB?
 	def self.description_to_html(desc)
 		CGI::unescape_html(desc)
 		.gsub(/\r\n|\r|\n/, '<br/>')

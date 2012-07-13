@@ -13,6 +13,13 @@ blade:
   runtime: 144
   production_year: 2003
 
+oben:
+  title: Oben
+  description: bla bla blub
+  runtime: 119
+  production_year: 2009
+  moviepilot_url: http://www.moviepilot.de/movies/oben
+
 test1:
   title: Test1
   description: bla bla bla

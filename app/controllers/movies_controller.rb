@@ -89,19 +89,26 @@ class MoviesController < ApplicationController
   end
 
 	def search
-		search_query = params[:query] || params[:term]
+		search_query = (params[:query] || params[:term]).strip.downcase
 
-		if search_query.strip.length > 1
+		if search_query.length > 1
 			@page = params[:page] || 1
-			@movie_search = MovieSearch.find_or_initialize_by_query(search_query.downcase)
+			@movie_search = MovieSearch.find_or_initialize_by_query(search_query)
 			@movies = get_from_cache || get_from_api
 
-			@movie_search.save
+			@movie_search.save || @movie_search.destroy && logger.warn(
+				'MovieSearch could not be saved!' +
+				"Object: #{@movie_search.to_s}; Errors: #{@movie_search.errors.to_s}")
 
 			respond_to do |format|
 				if @movies
-					format.js
-					format.json { render_preview_data }
+					if @movies.first.is_a? Movie
+						format.js
+						format.json { render_preview_data }
+					else
+						format.js { render 'movies/search_suggestions' }
+						format.json { head :no_content } #TODO: Show suggestions in popup box
+					end
 				else
 					format.js { render 'movies/search_failed' }
 					format.json { head :no_content }
@@ -124,22 +131,40 @@ class MoviesController < ApplicationController
 		# initialize API
 		api = MoviepilotApi.new(Settings.moviepilot.api.key)
 
-		while
-			response_data = api.movie_search(@movie_search.query, {per_page: 5, page: @page}, {timeout: 5}) rescue nil
-			return nil unless response_data.is_a? Hash
-			if response_data.has_key? 'total_entries' and response_data['total_entries'] > 0
-				@movie_search.total_results = response_data['total_entries']
-				return response_data['movies'].each_with_index.map do |movie_data, i|
+		# send search request to API
+		response_data = api.movie_search(@movie_search.query, {per_page: 5, page: @page}, {timeout: 5}) rescue nil
+		# return nil if the API didn't return a result in time
+		return nil unless response_data.is_a? Hash
+		if response_data.has_key? 'total_entries' and response_data['total_entries'] > 0
+			# set total results
+			@movie_search.total_results = response_data['total_entries']
+			# calculate result offset
+			offset = (@page - 1) * 5
+			# iterate over the returned movie results
+			return response_data['movies'].each_with_index.map do |movie_data, i|
+				# build a Movie object from the returned data...
+				movie = Movie.build_from_api_result(movie_data)
+				# ...and try to save it
+				if movie.save
+					# if successful, build an MovieSearchResult from it
+					# and add the movie object to the return array
 					@movie_search.results.build(
-						movie: Movie.build_from_api_result(movie_data),
-						result_number: i
+						movie: movie,
+						result_number: i + offset
 					).movie
-				end				
-			elsif response_data.has_key? 'suggestions'
-				@movie_search.query = response_data['suggestions'].first
-			else
-				return nil
-			end
+				else
+					# if the save operation failed, log an error...
+					logger.error "Movie could not be saved! Object: #{movie.to_s}; Errors: #{movie.errors.to_s}"
+					# and add nil to the return array
+					nil
+				end
+			end.compact # remove all nil entries from the return array
+		elsif response_data.has_key? 'suggestions'
+			# return the array of search suggestions if present
+			return response_data['suggestions']
+		else
+			# return nil if neither movie results nor suggestions were returned
+			return nil
 		end
 	end
 

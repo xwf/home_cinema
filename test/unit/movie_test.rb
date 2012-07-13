@@ -20,25 +20,6 @@ class MovieTest < ActiveSupport::TestCase
 		assert movie.errors[:runtime].any?
 	end
 
-	test 'title/production year must be unique' do
-		@movie.title = movies(:matrix).title
-		@movie.production_year = movies(:matrix).production_year
-
-		assert !@movie.save
-		assert @movie.errors[:title].any?
-		#assert_equal I18n.translate('activerecord.errors.messages.taken'),
-		#	@movie.errors[:title].join('; ')
-
-		@movie.title = @movie.title.downcase
-		assert !@movie.save
-		assert @movie.errors[:title].any?
-		#assert_equal I18n.translate('activerecord.errors.messages.taken'),
-		#	@movie.errors[:title].join('; ')
-
-		@movie.production_year = 2010
-		assert @movie.save
-	end
-
 	test 'movie runtime must be at least 10 minutes' do
 		@movie.runtime = 5
 		assert @movie.invalid?, 'Should not be valid'
