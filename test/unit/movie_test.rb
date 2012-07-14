@@ -10,7 +10,6 @@ class MovieTest < ActiveSupport::TestCase
 		)
 	end
 
-
   test 'movie attributes must not be empty' do
 		movie = Movie.new
 		assert movie.invalid?
@@ -58,5 +57,45 @@ class MovieTest < ActiveSupport::TestCase
 
 		@movie.moviepilot_url = 'http://www.moviepilot.de/movies/lost-in-translation'
 		assert @movie.valid?, 'Should be valid'
+	end
+
+	test 'production_year and runtime may be empty for api results' do
+		api_movie = Movie.new(
+			title: 'Test',
+			description: 'blub',
+			moviepilot_url: 'http://www.moviepilot.de/movies/test'
+		)
+
+		assert api_movie.valid?, 'Should be valid'
+	end
+
+	test 'production_year and runtime may be invalid for api results' do
+		api_movie = Movie.new(
+			title: 'Test',
+			description: 'blub',
+			runtime: 5,
+			production_year: 2013,
+			moviepilot_url: 'http://www.moviepilot.de/movies/test'
+		)
+
+		assert api_movie.valid?, 'Should be valid'
+	end
+
+	test 'moviepilot_url format' do
+		invalid = %w{blub http://www.imdb.org/matrix www.moviepilot.de/movies/matrix
+								http://www.moviepilot.de/matrix http://www.moviepilot.de/movies/ca$h
+								xhttp://www.moviepilot.de/movies/blub http://www.moviepilot.de/movies/test!
+								HTTP://www.Moviepilot.de/Movies/Blade}
+		valid = %w{http://www.moviepilot.de/movies/test http://www.moviepilot.de/movies/b5-a_x}
+
+		invalid.each do |url|
+			@movie.moviepilot_url = url
+			assert @movie.invalid?, "moviepilot url #{url} should be invalid"
+		end
+
+		valid.each do |url|
+			@movie.moviepilot_url = url
+			assert @movie.valid?, "moviepilot url #{url} should be valid"
+		end
 	end
 end

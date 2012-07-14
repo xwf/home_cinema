@@ -41,11 +41,19 @@
       margin: 229px 249px;
     }
 
-    .search-error {
-      margin-top: 20px;
+    .search-error, .search-suggestions, .search-no-results {
+      margin-top: 10px;
       font-style: italic;
       font-size: 16px;
       line-height: 1.5;
+
+      a {
+        font-style: normal;
+      }
+
+      .suggestion-link {
+        margin-left: 8px;
+      }
     }
   }
 
@@ -70,16 +78,6 @@
       margin-right: 5px;
     }
   }
-  
-  /*
-  .search-result:first-child {
-    border-top: none;
-  }
-
-  .search-result:last-child {
-    padding-bottom: 0;
-  }
-  */
 
   #search_nav a {
     min-width: 16px;

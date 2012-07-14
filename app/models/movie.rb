@@ -3,11 +3,12 @@ class Movie < ActiveRecord::Base
 
 	has_many :movie_suggestions, dependent: :destroy
 
-	validates :title, :production_year, :runtime, :description, presence: true
-	validates :runtime, numericality: {greater_than_or_equal_to: 10}
+	validates :title, :description, presence: true
+	validates :runtime, numericality: {greater_than_or_equal_to: 10}, unless: :api_result?
 	validates :production_year, numericality: {greater_than: 1920,
-																	less_than_or_equal_to: Date.current.year}
-	validates :moviepilot_url, uniqueness: true, allow_nil: true
+																	less_than_or_equal_to: Date.current.year}, unless: :api_result?
+	validates :moviepilot_url, format: %r{^http://www\.moviepilot\.de/movies/[\w-]+$},
+														uniqueness: true, allow_nil: true
 
 	def self.build_from_api_result(movie_data)
 		movie = self::find_or_initialize_by_moviepilot_url(movie_data['restful_url'])
@@ -31,5 +32,9 @@ class Movie < ActiveRecord::Base
 
 	def self.poster_url(pd)
 		"#{pd['base_url']+pd['photo_id']}/#{pd['file_name_base']}.#{pd['extension']}" if pd.is_a? Hash
+	end
+
+	def api_result?
+		not moviepilot_url.nil?
 	end
 end

@@ -1,7 +1,7 @@
 module MoviesHelper
-	def poster_to_format(poster_url, format)
-		if poster_url
-			poster_url.gsub(/\.(?:jpg|jpeg|png|gif)$/i, "_#{format}\0")
+	def image_to_format(image_url, format)
+		if image_url
+			image_url.gsub(/\.(jpg|jpeg|png|gif)$/i, "_#{format}.\\1")
 		else
 			'placeholder.png'
 		end

@@ -8,7 +8,7 @@ window.search_input = movie_search_form.find('#movie_search_query')
 window.search_input_control_group = search_input.parents('.control-group')
 
 search_input.on 'railsAutocomplete.select', (event, data) ->
-  #
+  #TODO
 
 search_input.on 'autocompletesearch', (event, ui) ->
   search_input_control_group.removeClass 'error'
@@ -32,6 +32,8 @@ search_modal.on 'hidden', ->
   search_results.empty()
   search_results.append loader
   search_modal.removeClass 'initialized'
+  search_input.val ''
+  search_input.focus()
 
 getPage = (pageString) ->
   active_element = search_nav.find('li.active')
@@ -60,15 +62,14 @@ updateNav = (new_page, current_page) ->
   if new_page == 1 then prev.addClass 'disabled' else prev.removeClass 'disabled'    
   if new_page == page_count then next.addClass 'disabled' else next.removeClass 'disabled'
   
-loadContent = (page) ->
+window.loadContent = (query, page=1) ->
   # show loader
   search_results.empty()
   search_results.append loader
   # send query
-  query = search_input.val()
   $.getScript "/movies/search?query=#{query}&page=#{page}"
 
-window.activateNavLinks = ->
+window.activateNavLinks = (query) ->
   nav_links = search_nav.find('a')
   nav_links.on 'click', (event) ->
     link = $(event.target)
@@ -76,5 +77,5 @@ window.activateNavLinks = ->
     unless element.is '.disabled, .active'
       page = getPage(link.attr('href').substring(1))
       updateNav page 
-      loadContent page
+      loadContent query, page
   

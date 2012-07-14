@@ -92,25 +92,19 @@ class MoviesController < ApplicationController
 		search_query = (params[:query] || params[:term]).strip.downcase
 
 		if search_query.length > 1
-			@page = params[:page] || 1
+			@page = (params[:page] || 1).to_i
 			@movie_search = MovieSearch.find_or_initialize_by_query(search_query)
-			@movies = get_from_cache || get_from_api
-
-			@movie_search.save || @movie_search.destroy && logger.warn(
-				'MovieSearch could not be saved!' +
-				"Object: #{@movie_search.to_s}; Errors: #{@movie_search.errors.to_s}")
+			@movies, @suggestions = get_from_cache || get_from_api
 
 			respond_to do |format|
 				if @movies
-					if @movies.first.is_a? Movie
-						format.js
-						format.json { render_preview_data }
-					else
-						format.js { render 'movies/search_suggestions' }
-						format.json { head :no_content } #TODO: Show suggestions in popup box
-					end
+					format.js
+					format.json { render_preview_data }
+				elsif @suggestions
+					format.js { render 'movies/search/no_results' }
+					format.json { head :no_content } #TODO: Show suggestions in popup box
 				else
-					format.js { render 'movies/search_failed' }
+					format.js { render 'movies/search/error' }
 					format.json { head :no_content }
 				end
 			end
@@ -121,10 +115,30 @@ class MoviesController < ApplicationController
 
 	private
 	def get_from_cache
-		MovieSearchResult.where(
-			movie_search_id: @movie_search.id,
-			result_number: [(@page-1)*5...@page*5]
-		).map { |result| result.movie } unless @movie_search.new_record?
+		# return imidiately if this is a new search
+		unless @movie_search.new_record?
+			# init variables
+			from = (@page - 1) * 5;	to = @page * 5
+			# do DB query
+			movies = MovieSearchResult.where(
+				movie_search_id: @movie_search.id,
+				result_number: [from...to]
+			).map { |result| result.movie }
+			# calculate expected return count
+			expected_return_count = [5, @movie_search.total_results - from].min
+			# only return DB result if count matches
+			if expected_return_count == movies.size
+				logger.info "Returning results #{from+1}-#{to} for query '#{@movie_search.query}' from cache"
+				return movies, nil
+			else
+				unless movies.empty?
+					# delete all cached results unless no results at all were returned
+					logger.warn "Inconsistent cache lookup! Destroying cached results for query '#{@movie_search.query}'"
+					@movie_search.results.clear
+				end
+				return nil
+			end
+		end
 	end
 
 	def get_from_api
@@ -138,10 +152,12 @@ class MoviesController < ApplicationController
 		if response_data.has_key? 'total_entries' and response_data['total_entries'] > 0
 			# set total results
 			@movie_search.total_results = response_data['total_entries']
+			# save the MovieSearch object
+			@movie_search.save
 			# calculate result offset
 			offset = (@page - 1) * 5
 			# iterate over the returned movie results
-			return response_data['movies'].each_with_index.map do |movie_data, i|
+			movies = response_data['movies'].each_with_index.map do |movie_data, i|
 				# build a Movie object from the returned data...
 				movie = Movie.build_from_api_result(movie_data)
 				# ...and try to save it
@@ -158,10 +174,20 @@ class MoviesController < ApplicationController
 					# and add nil to the return array
 					nil
 				end
-			end.compact # remove all nil entries from the return array
+			end
+
+			# try to save the MovieSearch object again; destroy it on fail
+			@movie_search.save || @movie_search.destroy && logger.warn(
+				'MovieSearch could not be saved and was therefore destroyed! ' +
+				"Errors: #{@movie_search.errors.to_s}")
+
+			# remove all nil entries from the return array and return it
+			logger.info "Returning results #{offset+1}-#{offset+5} for query '#{@movie_search.query}' from API"
+			return movies.compact, nil
+
 		elsif response_data.has_key? 'suggestions'
 			# return the array of search suggestions if present
-			return response_data['suggestions']
+			return nil, response_data['suggestions']
 		else
 			# return nil if neither movie results nor suggestions were returned
 			return nil
@@ -170,7 +196,7 @@ class MoviesController < ApplicationController
 
 	def render_preview_data
 		result = @movies.map do |movie|
-			{label: render_to_string(partial: 'movies/search_result', formats: :html, object: movie)}
+			{label: render_to_string(partial: 'movies/search/result', formats: :html, object: movie)}
 		end
 		if @movie_search.total_results > 5
 			result << {label: "<em>Alle #{@movie_search.total_results} Treffer anzeigen</em>"}
