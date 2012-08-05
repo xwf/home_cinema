@@ -1,13 +1,14 @@
-<%= simple_form_for :movie_search, remote: true, url: search_movies_path, method: :get,
-		html: {id: 'movie_search_form', class: 'form-search'} do |search_form| %>
-	<%= search_form.input :query, wrapper: :append, label: false do %>
-		<%= search_form.input_field :query, name: 'query', class: 'search-query',
-				as: :autocomplete, url: search_movies_path
-		%><%=	content_tag :button, class: 'btn' do %>
-			<i class="icon-search"></i>
-		<% end %>
-	<% end %>
-<% end %>
+<form accept-charset="UTF-8" action="/movies/search" class="form-search"
+			data-remote="true" id="movie_search_form" method="get" novalidate="novalidate">
+	<input name="utf8" type="hidden" value="✓" />
+	<div class="input-append">
+		<input class="autocomplete search-query" data-autocomplete="/movies/search"
+					id="movie_search_input" name="query" size="30" placeholder="Suchen"
+					 type="text" url="/movies/search" /><button class="btn" type="submit">
+			<i class="icon-search"></i></button>
+	</div>
+	<span class="help-inline">oder <a data-toggle="modal" href="#movie_form_modal">manuell erfassen</a></span>
+</form>
 <div id="movie_suggestion_box"></div>
 <div id="search_modal" class="modal fade hide">
 	<div class="modal-header">
@@ -18,4 +19,11 @@
 		<%= image_tag 'loader.gif', class: 'loader' %>
 	</div>
 	<div id="search_nav" class="pagination pagination-centered"></div>
+</div>
+<div id="movie_form_modal" class="modal fade hide">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">&times;</button>
+		<h2>Film erfassen</h2>
+	</div>
+	<%= render 'movies/form', modal: true %>
 </div>

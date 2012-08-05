@@ -1,3 +1,6 @@
 moviepilot:
   api:
     key: 954fa46f973f467debe3c9cf27bdc4bf
+
+movie:
+  upload_dir: movie_images

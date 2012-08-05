@@ -128,6 +128,14 @@ de:
         date: Termin
         text: Text
         movie_suggestions_allowed: Filmvorschläge erlaubt
+      movie:
+        title: Titel
+        description: Zusammenfassung der Handlung
+        runtime: Laufzeit
+        production_year: Produktionsjahr
+        uploaded_image: Posterbild
+      movie_suggestion:
+        comment: Anmerkungen
     errors:
       template:
         header:

@@ -7,7 +7,7 @@ class Movie < ActiveRecord::Base
 	validates :runtime, numericality: {greater_than_or_equal_to: 10}, unless: :api_result?
 	validates :production_year, numericality: {greater_than: 1920,
 																	less_than_or_equal_to: Date.current.year}, unless: :api_result?
-	validates :moviepilot_url, format: %r{^http://www\.moviepilot\.de/movies/[\w-]+$},
+	validates :moviepilot_url, format: %r{^http://www\.moviepilot\.de/movies/[^/]+$},
 														uniqueness: true, allow_nil: true
 
 	def self.build_from_api_result(movie_data)

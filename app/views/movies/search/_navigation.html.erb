@@ -1,0 +1,16 @@
+<ul>
+	<li id="prev" class="disabled">
+		<a>«</a>
+	</li>
+	<li class="active" id="page1">
+		<a>1</a>
+	</li>
+	<% for i in 2..@movie_search.page_count %>
+		<%= content_tag :li, id: "page#{i}", style: ('display: none;' if i > 9) do %>
+			<a><%=i%></a>
+		<% end %>
+	<% end %>
+	<%= content_tag :li, id: 'next', class: ('disabled' if @movie_search.page_count <= 1) do %>
+		<a>»</a>
+	<%end%>
+</ul>

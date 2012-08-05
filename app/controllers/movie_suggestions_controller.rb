@@ -27,12 +27,14 @@ class MovieSuggestionsController < ApplicationController
   # GET /movie_suggestions/new.json
   def new
 		@movie_suggestion = @show.movie_suggestions.build(
-			registration_id: params[:registration_id] )
-		@movie = Movie.new
+			registration_id: params[:registration_id],
+			movie_id: params[:movie_id]
+		)
+		@movie = @movie_suggestion.movie || Movie.new
 
     respond_to do |format|
+			format.js
       format.html # new.html.erb
-      format.json { render json: @movie_suggestion }
     end
   end
 
@@ -87,11 +89,14 @@ class MovieSuggestionsController < ApplicationController
 		if params[:id]
 			@movie_suggestion = MovieSuggestion.find(params[:id])
 			@show = @movie_suggestion.show
+			@path = movie_suggestion_path(params[:id])
 		elsif params[:show_id]
 			@show = Show.find(params[:show_id])
+			@path = show_movie_suggestions_path(params[:show_id])
 		elsif params[:registration_id]
 			# Could be optimized to a single SQL query
 			@show = Registration.find(params[:registration_id]).show
+			@path = registration_suggestion_path(params[:registration_id])
 		end
 	end
 end

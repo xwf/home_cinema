@@ -1,9 +1,11 @@
-<%= simple_form_for [@show, @movie_suggestion], html: {class: 'form-horizontal'} do |f| %>
+<label for="movie_search_input">Film</label>
+<div id="movie_wrapper">
+	<%= render @movie.new_record? ? 'movie_search' : @movie %>
+</div>
+<%= simple_form_for [@show, @movie_suggestion] do |f| %>
 	<%= f.input :registration_id, as: :hidden %>
-	<%= simple_fields_for @movie do |mf| %>
-		<%= mf.input :title, as: :autocomplete, url: search_movies_path %>
-	<% end %>
-
-	<%= f.input :comment %>
-	<%= f.button :submit, class: 'btn btn-primary' %>
+	<%= f.input :movie_id, as: :hidden %>
+	<%= f.input :comment, input_html: {class: 'span9', rows: 8},
+				hint: 'Wenn du noch etwas über den Film schreiben möchtest, kannst du das hier tun.'%>
+	<%= f.button :submit, 'Senden', class: 'btn btn-primary' %>
 <% end %>

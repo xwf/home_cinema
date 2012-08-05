@@ -41,14 +41,9 @@ class MoviesController < ApplicationController
   # POST /movies
   # POST /movies.json
   def create
-		if moviepilot_url = params[:movie][:moviepilot_url]
-			api = MoviepilotApi.new(Settings.moviepilot.api.key)
-			movie_data = api.get_movie(moviepilot_url)
-			@movie = Movie.build_from_api_result(movie_data)
-		else
-			@movie = Movie.new(params[:movie])
-		end
-
+		@movie = Movie.new(params[:movie].except :uploaded_image)
+		self.process_upload(params[:movie][:uploaded_image])
+		
     respond_to do |format|
       if @movie.save
         format.html { redirect_to @movie, notice: 'Movie was successfully created.' }
@@ -89,12 +84,15 @@ class MoviesController < ApplicationController
   end
 
 	def search
-		search_query = (params[:query] || params[:term]).strip.downcase
+		search_query = (params[:query] || params[:term] || '').strip.downcase
 
 		if search_query.length > 1
 			@page = (params[:page] || 1).to_i
 			@movie_search = MovieSearch.find_or_initialize_by_query(search_query)
-			@movies, @suggestions = get_from_cache || get_from_api
+
+			MovieSearch.transaction do
+				@movies, @suggestions = get_from_cache || get_from_api
+			end
 
 			respond_to do |format|
 				if @movies
@@ -170,7 +168,7 @@ class MoviesController < ApplicationController
 					).movie
 				else
 					# if the save operation failed, log an error...
-					logger.error "Movie could not be saved! Object: #{movie.to_s}; Errors: #{movie.errors.to_s}"
+					logger.error "Movie could not be saved! Object: #{movie.attributes}; Errors: #{movie.errors.to_a}"
 					# and add nil to the return array
 					nil
 				end
@@ -179,7 +177,7 @@ class MoviesController < ApplicationController
 			# try to save the MovieSearch object again; destroy it on fail
 			@movie_search.save || @movie_search.destroy && logger.warn(
 				'MovieSearch could not be saved and was therefore destroyed! ' +
-				"Errors: #{@movie_search.errors.to_s}")
+				"Errors: #{@movie_search.errors.to_a}")
 
 			# remove all nil entries from the return array and return it
 			logger.info "Returning results #{offset+1}-#{offset+5} for query '#{@movie_search.query}' from API"
@@ -196,11 +194,24 @@ class MoviesController < ApplicationController
 
 	def render_preview_data
 		result = @movies.map do |movie|
-			{label: render_to_string(partial: 'movies/search/result', formats: :html, object: movie)}
+			{label: render_to_string(partial: 'movies/search/result', formats: :html, object: movie), value: '', id: movie.id}
 		end
 		if @movie_search.total_results > 5
-			result << {label: "<em>Alle #{@movie_search.total_results} Treffer anzeigen</em>"}
+			result << {label: "<em>Alle #{@movie_search.total_results} Treffer anzeigen</em>", value: params[:term], show_all: true}
 		end
 		render json: result
+	end
+
+	def process_upload(upload_field)
+		return if upload_field.nil? || upload_field.content_type 
+		file_name = base_part_of upload_field.original_filename
+		external_path = File.join(Settings.movie.upload_dir, file_name)
+		internal_path = File.join('public', external_path)
+		File.open(internal_path, "wb") { |f| f.write(upload_field.read) }
+		
+	end
+
+	def base_part_of(file_name)
+		File.basename(file_name).gsub(/[^\w._-]/, '')
 	end
 end

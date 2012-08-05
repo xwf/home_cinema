@@ -83,10 +83,11 @@ class MovieTest < ActiveSupport::TestCase
 
 	test 'moviepilot_url format' do
 		invalid = %w{blub http://www.imdb.org/matrix www.moviepilot.de/movies/matrix
-								http://www.moviepilot.de/matrix http://www.moviepilot.de/movies/ca$h
-								xhttp://www.moviepilot.de/movies/blub http://www.moviepilot.de/movies/test!
+								http://www.moviepilot.de/matrix http://www.moviepilot.de/movies/ca/h
+								xhttp://www.moviepilot.de/movies/blub http://www.moviepilot.de/movies/test/
 								HTTP://www.Moviepilot.de/Movies/Blade}
-		valid = %w{http://www.moviepilot.de/movies/test http://www.moviepilot.de/movies/b5-a_x}
+		valid = %w{http://www.moviepilot.de/movies/test http://www.moviepilot.de/movies/b5-a_x
+							http://www.moviepilot.de/movies/ca$h}
 
 		invalid.each do |url|
 			@movie.moviepilot_url = url

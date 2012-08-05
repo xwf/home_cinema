@@ -1,0 +1,8 @@
+<div class="search-suggestions">
+	<p>Meintest du:
+		<% @suggestions.each do |suggestion| %>
+			<a class="suggestion-link"><%=suggestion%></a>
+		<% end %>
+	</p>
+	<a data-dismiss="modal">Neue Suche</a>
+</div>

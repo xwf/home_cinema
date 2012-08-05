@@ -1,5 +1,8 @@
 # update modal content
 search_results.html "<%=j render partial: 'movies/search/result', collection: @movies %>"
+# activate movie select buttons
+search_results.find('button.movie-select').on 'click', (event) ->
+  updateMovie $(event.target).attr('movie-id')
 # unless modal is already initialized
 unless search_modal.hasClass 'initialized'
   # write modal title
