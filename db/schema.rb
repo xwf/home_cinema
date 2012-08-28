@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120712230835) do
+ActiveRecord::Schema.define(:version => 20120811074933) do
 
   create_table "movie_search_results", :force => true do |t|
     t.integer  "result_number"
@@ -47,10 +47,14 @@ ActiveRecord::Schema.define(:version => 20120712230835) do
     t.text     "description"
     t.integer  "runtime"
     t.integer  "production_year"
-    t.string   "image_url"
     t.string   "moviepilot_url"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.string   "moviepilot_image_url"
+    t.string   "poster_file_name"
+    t.string   "poster_content_type"
+    t.integer  "poster_file_size"
+    t.datetime "poster_updated_at"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
   end
 
   add_index "movies", ["moviepilot_url"], :name => "index_movies_on_moviepilot_url", :unique => true

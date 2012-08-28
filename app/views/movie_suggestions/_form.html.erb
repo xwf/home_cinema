@@ -1,11 +1,11 @@
 <label for="movie_search_input">Film</label>
-<div id="movie_wrapper">
+<div id="movie_wrapper" class="clearfix">
 	<%= render @movie.new_record? ? 'movie_search' : @movie %>
 </div>
-<%= simple_form_for [@show, @movie_suggestion] do |f| %>
-	<%= f.input :registration_id, as: :hidden %>
-	<%= f.input :movie_id, as: :hidden %>
+<%= simple_form_for @movie_suggestion, url: @form_path do |f| %>
+	<%= f.input_field :movie_id, as: :hidden %>
 	<%= f.input :comment, input_html: {class: 'span9', rows: 8},
 				hint: 'Wenn du noch etwas über den Film schreiben möchtest, kannst du das hier tun.'%>
-	<%= f.button :submit, 'Senden', class: 'btn btn-primary' %>
+	<%= f.button :submit, 'Senden', class: 'btn-primary' %>
 <% end %>
+<%= render 'modals' %>

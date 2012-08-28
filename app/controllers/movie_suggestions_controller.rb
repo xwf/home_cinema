@@ -1,4 +1,3 @@
-
 class MovieSuggestionsController < ApplicationController
 
 	before_filter :init_fields
@@ -26,11 +25,13 @@ class MovieSuggestionsController < ApplicationController
   # GET /movie_suggestions/new
   # GET /movie_suggestions/new.json
   def new
-		@movie_suggestion = @show.movie_suggestions.build(
-			registration_id: params[:registration_id],
-			movie_id: params[:movie_id]
-		)
+		@movie_suggestion = @show.movie_suggestions.build(movie_id: params[:movie_id])
 		@movie = @movie_suggestion.movie || Movie.new
+		if @registration
+			@form_path = registration_movie_suggestion_path(@registration.code)
+		else
+			@form_path = show_movie_suggestions_path(@show)
+		end
 
     respond_to do |format|
 			format.js
@@ -41,20 +42,27 @@ class MovieSuggestionsController < ApplicationController
   # GET /movie_suggestions/1/edit
   def edit
     @movie = @movie_suggestion.movie
+		if @registration
+			@form_path = registration_movie_suggestion_path(@registration.code)
+		else
+			@form_path = movie_suggestion_path(@movie_suggestion)
+		end
   end
 
   # POST /movie_suggestions
   # POST /movie_suggestions.json
   def create
-    @movie_suggestion = @show.movie_suggestions.build(params[:movie_suggestion])
+		@movie_suggestion = @show.movie_suggestions.build(params[:movie_suggestion])
+		@movie_suggestion.status = @registration ? Status::PENDING : Status::ACCEPTED
 
     respond_to do |format|
       if @movie_suggestion.save
-        format.html { redirect_to @movie_suggestion, notice: 'Movie suggestion was successfully created.' }
-        format.json { render json: @movie_suggestion, status: :created, location: @movie_suggestion }
+        format.html { redirect_to @return_url, notice: 'Filmvorschlag wurde erstellt' }
       else
-        format.html { render action: "new" }
-        format.json { render json: @movie_suggestion.errors, status: :unprocessable_entity }
+        format.html do
+					@movie = @movie_suggestion.movie || Movie.new
+					render action: "new"
+				end
       end
     end
   end
@@ -62,13 +70,14 @@ class MovieSuggestionsController < ApplicationController
   # PUT /movie_suggestions/1
   # PUT /movie_suggestions/1.json
   def update
-    respond_to do |format|
+		respond_to do |format|
       if @movie_suggestion.update_attributes(params[:movie_suggestion])
-        format.html { redirect_to @movie_suggestion, notice: 'Movie suggestion was successfully updated.' }
-        format.json { head :no_content }
+        format.html { redirect_to @return_url, notice: 'Filmvorschlag wurde aktualisiert' }
       else
-        format.html { render action: "edit" }
-        format.json { render json: @movie_suggestion.errors, status: :unprocessable_entity }
+        format.html do
+					@movie = @movie_suggestion.movie
+					render action: "edit"
+				end
       end
     end
   end
@@ -79,24 +88,47 @@ class MovieSuggestionsController < ApplicationController
     @movie_suggestion.destroy
 
     respond_to do |format|
-      format.html { redirect_to movie_suggestions_url }
-      format.json { head :no_content }
+      format.html { redirect_to @return_url, notice: 'Filmvorschlag wurde gelöscht' }
     end
   end
 
 	protected
 	def init_fields
-		if params[:id]
-			@movie_suggestion = MovieSuggestion.find(params[:id])
-			@show = @movie_suggestion.show
-			@path = movie_suggestion_path(params[:id])
-		elsif params[:show_id]
-			@show = Show.find(params[:show_id])
-			@path = show_movie_suggestions_path(params[:show_id])
-		elsif params[:registration_id]
-			# Could be optimized to a single SQL query
-			@show = Registration.find(params[:registration_id]).show
-			@path = registration_suggestion_path(params[:registration_id])
+
+		if params[:registration_id]
+			begin
+				@registration = Registration.find_by_code!(params[:registration_id])
+				@movie_suggestion = @registration.movie_suggestion
+				@show = @registration.show
+				@return_url = registration_url(@registration)
+				unless @movie_suggestion || ['new', 'create'].include?(action_name)
+					logger.error("Attempt to modify non-existing movie suggestion for registration ##{params[:registration_id]}")
+					redirect_to @return_url, alert: "Filmvorschlag wurde nicht gefunden"
+				end
+			rescue ActiveRecord::RecordNotFound
+				logger.error("Attempt to access invalid registration ##{params[:registration_id]}")
+				redirect_to shows_url, alert: 'Ung&uuml;ltiger Anmeldungscode'
+			end
+		else
+			check_admin
+			if params[:id]
+				begin
+					@movie_suggestion = MovieSuggestion.find(params[:id])
+					@show = @movie_suggestion.show
+				rescue ActiveRecord::RecordNotFound
+					logger.error("Attempt to access invalid movie suggestion ##{params[:id]}")
+					redirect_to admin_url, alert: "Filmvorschlag ##{params[:id]} existiert nicht."
+				end
+			elsif params[:show_id]
+				begin
+					@show = Show.find(params[:show_id])
+				rescue ActiveRecord::RecordNotFound
+					logger.error("Attempt to access invalid show ##{params[:show_id]}")
+					redirect_to admin_url, alert: "Vorstellung ##{params[:show_id]} existiert nicht."
+				end
+			end
+			@return_url = show_movie_suggestions_url(@show)
 		end
+		
 	end
 end

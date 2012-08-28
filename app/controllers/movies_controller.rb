@@ -41,15 +41,15 @@ class MoviesController < ApplicationController
   # POST /movies
   # POST /movies.json
   def create
-		@movie = Movie.new(params[:movie].except :uploaded_image)
-		self.process_upload(params[:movie][:uploaded_image])
+		@movie = Movie.new(params[:movie])
 		
     respond_to do |format|
       if @movie.save
-        format.html { redirect_to @movie, notice: 'Movie was successfully created.' }
-        format.json { render json: @movie, status: :created, location: @movie }
+				format.json { render json: { movie: render_to_string(@movie, formats: :html), movie_id: @movie.id } }
+				format.html do
+					render json: { movie: CGI::escape_html(render_to_string(@movie, formats: :html).gsub('"', "'")), movie_id: @movie.id }
+				end
       else
-        format.html { render action: "new" }
         format.json { render json: @movie.errors, status: :unprocessable_entity }
       end
     end
@@ -200,18 +200,5 @@ class MoviesController < ApplicationController
 			result << {label: "<em>Alle #{@movie_search.total_results} Treffer anzeigen</em>", value: params[:term], show_all: true}
 		end
 		render json: result
-	end
-
-	def process_upload(upload_field)
-		return if upload_field.nil? || upload_field.content_type 
-		file_name = base_part_of upload_field.original_filename
-		external_path = File.join(Settings.movie.upload_dir, file_name)
-		internal_path = File.join('public', external_path)
-		File.open(internal_path, "wb") { |f| f.write(upload_field.read) }
-		
-	end
-
-	def base_part_of(file_name)
-		File.basename(file_name).gsub(/[^\w._-]/, '')
 	end
 end

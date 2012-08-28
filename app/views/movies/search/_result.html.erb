@@ -1,0 +1,13 @@
+<div class="search-result clearfix">
+	<%= image_tag poster_url(result, 'poster'),
+		alt: "Poster zu #{result.title}", width: '60' %>
+	<div class="result-text">
+		<span class="movie_title"><%=h result.title %></span>
+		<% if result.production_year %>
+		<span class="movie_year">(<%= result.production_year %>)</span>
+		<% end %>
+	</div>
+	<% if params[:query] # hide in autocomplete box %>
+		<button class="btn movie-select" movie-id="<%=result.id%>">&Uuml;bernehmen</button>
+	<% end %>
+</div>

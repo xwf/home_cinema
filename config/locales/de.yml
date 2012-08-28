@@ -131,7 +131,7 @@ de:
       movie:
         title: Titel
         description: Zusammenfassung der Handlung
-        runtime: Laufzeit
+        runtime: Laufzeit in Minuten
         production_year: Produktionsjahr
         uploaded_image: Posterbild
       movie_suggestion:
@@ -144,29 +144,26 @@ de:
         body: "Bitte überprüfen Sie die folgenden Felder:"
 
       messages:
-        inclusion: "ist kein gültiger Wert"
-        exclusion: "ist nicht verfügbar"
-        invalid: "ist nicht gültig"
-        confirmation: "stimmt nicht mit der Bestätigung überein"
+        inclusion: "Wert ist ungültig"
+        exclusion: "Wert ist nicht verfügbar"
+        invalid: "Wert ist nicht gültig"
+        confirmation: "Text stimmt nicht mit der Bestätigung überein"
         accepted: "muss akzeptiert werden"
-        empty: "muss ausgefüllt werden"
-        blank: "muss ausgefüllt werden"
-        too_long: "ist zu lang (nicht mehr als %{count} Zeichen)"
-        too_short: "ist zu kurz (nicht weniger als %{count} Zeichen)"
-        wrong_length: "hat die falsche Länge (muss genau %{count} Zeichen haben)"
+        empty: "Feld muss ausgefüllt werden"
+        blank: "Feld muss ausgefüllt werden"
+        too_long: "Text ist zu lang (nicht mehr als %{count} Zeichen)"
+        too_short: "Text ist zu kurz (nicht weniger als %{count} Zeichen)"
+        wrong_length: "Text hat die falsche Länge (muss genau %{count} Zeichen haben)"
         taken: "ist bereits vergeben"
-        not_a_number: "ist keine Zahl"
-        not_a_date: "is kein gültiges Datum"
-        greater_than: "muss größer als %{count} sein"
-        greater_than_or_equal_to: "muss größer oder gleich %{count} sein"
-        equal_to: "muss genau %{count} sein"
-        less_than: "muss kleiner als %{count} sein"
-        less_than_or_equal_to: "muss kleiner oder gleich %{count} sein"
-        odd: "muss ungerade sein"
-        even: "muss gerade sein"
-        greater_than_start_date: "muss größer als Anfangsdatum sein"
-        not_same_project: "gehört nicht zum selben Projekt"
-        circular_dependency: "Diese Beziehung würde eine zyklische Abhängigkeit erzeugen"
-        cant_link_an_issue_with_a_descendant: "Ein Ticket kann nicht mit einer ihrer Unteraufgaben verlinkt werden"
+        not_a_number: "Wert ist keine Zahl"
+        not_a_date: "Wert ist kein gültiges Datum"
+        greater_than: "Wert muss größer als %{count} sein"
+        greater_than_or_equal_to: "Wert muss größer oder gleich %{count} sein"
+        equal_to: "Wert muss genau %{count} sein"
+        less_than: "Wert muss kleiner als %{count} sein"
+        less_than_or_equal_to: "Wert muss kleiner oder gleich %{count} sein"
+        odd: "Wert muss ungerade sein"
+        even: "Wert muss gerade sein"
+        unsupported_image_format: "hat ein nicht unterstütztes Bildformat"
 
   actionview_instancetag_blank_option: Bitte auswählen

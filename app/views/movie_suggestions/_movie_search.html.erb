@@ -9,21 +9,3 @@
 	</div>
 	<span class="help-inline">oder <a data-toggle="modal" href="#movie_form_modal">manuell erfassen</a></span>
 </form>
-<div id="movie_suggestion_box"></div>
-<div id="search_modal" class="modal fade hide">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal">&times;</button>
-		<h2 id="search_header"></h2>
-	</div>
-	<div id="search_results" class="modal-body">
-		<%= image_tag 'loader.gif', class: 'loader' %>
-	</div>
-	<div id="search_nav" class="pagination pagination-centered"></div>
-</div>
-<div id="movie_form_modal" class="modal fade hide">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal">&times;</button>
-		<h2>Film erfassen</h2>
-	</div>
-	<%= render 'movies/form', modal: true %>
-</div>
