@@ -1,27 +1,18 @@
-<h1>Listing registrations</h1>
+<div id="registrations_header" class="page-header">
+	<h1>Anmeldungen für <%=l! @show.date.to_date %></h1>
+</div>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Email</th>
-    <th>Show</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+<ul class="nav nav-tabs">
+	<li class="active"><a href="#accepted" data-toggle="tab">Akzeptiert</a></li>
+	<li><a href="#pending" data-toggle="tab">Ausstehend</a></li>
+	<li><a href="#denied" data-toggle="tab">Abgelehnt</a></li>
+	<li><a href="#cancelled" data-toggle="tab">Zurückgezogen</a></li>
+</ul>
 
-<% @registrations.each do |registration| %>
-  <tr>
-    <td><%= registration.name %></td>
-    <td><%= registration.email %></td>
-    <td><%= registration.show_id %></td>
-    <td><%= link_to 'Show', registration %></td>
-    <td><%= link_to 'Edit', edit_registration_path(registration) %></td>
-    <td><%= link_to 'Destroy', registration, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Registration', new_registration_path %>
+<% none = '<em>Keine</em>'.html_safe %>
+<div class="tab-content">
+	<div class="tab-pane active" id="accepted"><%= (render @show.accepted_registrations) || none %></div>
+	<div class="tab-pane" id="pending"><%= (render @show.pending_registrations) || none %></div>
+	<div class="tab-pane" id="denied"><%= (render @show.denied_registrations) || none %></div>
+	<div class="tab-pane" id="cancelled"><%= (render @show.cancelled_registrations) || none %></div>
+</div>

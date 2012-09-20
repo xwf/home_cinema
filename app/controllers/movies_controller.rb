@@ -18,7 +18,7 @@ class MoviesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @movie }
+      format.json { render_as_json }
     end
   end
 
@@ -45,10 +45,8 @@ class MoviesController < ApplicationController
 		
     respond_to do |format|
       if @movie.save
-				format.json { render json: { movie: render_to_string(@movie, formats: :html), movie_id: @movie.id } }
-				format.html do
-					render json: { movie: CGI::escape_html(render_to_string(@movie, formats: :html).gsub('"', "'")), movie_id: @movie.id }
-				end
+				format.json { render_as_json }
+				format.html { render_as_json(true) }
       else
         format.json { render json: @movie.errors, status: :unprocessable_entity }
       end
@@ -62,10 +60,9 @@ class MoviesController < ApplicationController
 
     respond_to do |format|
       if @movie.update_attributes(params[:movie])
-        format.html { redirect_to @movie, notice: 'Movie was successfully updated.' }
-        format.json { head :no_content }
+        format.json { render_as_json }
+				format.html { render_as_json(true) }
       else
-        format.html { render action: "edit" }
         format.json { render json: @movie.errors, status: :unprocessable_entity }
       end
     end
@@ -85,6 +82,7 @@ class MoviesController < ApplicationController
 
 	def search
 		search_query = (params[:query] || params[:term] || '').strip.downcase
+		popup = params[:term].present?
 
 		if search_query.length > 1
 			@page = (params[:page] || 1).to_i
@@ -95,15 +93,19 @@ class MoviesController < ApplicationController
 			end
 
 			respond_to do |format|
-				if @movies
-					format.js
-					format.json { render_preview_data }
-				elsif @suggestions
-					format.js { render 'movies/search/no_results' }
-					format.json { head :no_content } #TODO: Show suggestions in popup box
-				else
-					format.js { render 'movies/search/error' }
-					format.json { head :no_content }
+				format.json do
+					if @movies
+						return render_popup_results if popup
+						render json: {
+							results: render_to_string(partial: 'movies/preview', collection: @movies, formats: :html),
+							header: render_to_string(partial: 'movies/search/header', formats: :html),
+							navigation: render_to_string(partial: 'movies/search/navigation', formats: :html)
+						}
+					else
+						return head :no_content if popup
+						partial, status = (@suggestions.nil?) ? ['error', 500] : (@suggestions.empty?) ? ['no_results', 404] : ['suggestions', 300]
+						render text: render_to_string(partial: 'movies/search/' + partial, formats: :html, status: status)
+					end
 				end
 			end
 		else
@@ -113,7 +115,7 @@ class MoviesController < ApplicationController
 
 	private
 	def get_from_cache
-		# return imidiately if this is a new search
+		# return immediately if this is a new search
 		unless @movie_search.new_record?
 			# init variables
 			from = (@page - 1) * 5;	to = @page * 5
@@ -192,13 +194,23 @@ class MoviesController < ApplicationController
 		end
 	end
 
-	def render_preview_data
+	def render_popup_results
 		result = @movies.map do |movie|
-			{label: render_to_string(partial: 'movies/search/result', formats: :html, object: movie), value: '', id: movie.id}
+			{	label: render_to_string(partial: 'movies/preview', formats: :html, object: movie),
+				value: '',
+				id: movie.id }
 		end
 		if @movie_search.total_results > 5
-			result << {label: "<em>Alle #{@movie_search.total_results} Treffer anzeigen</em>", value: params[:term], show_all: true}
+			result << { label: "<em>Alle #{@movie_search.total_results} Treffer anzeigen</em>",
+									value: params[:term],
+									show_all: true }
 		end
 		render json: result
+	end
+
+	def render_as_json(escape=false)
+		movie_html = render_to_string(@movie, formats: :html)
+		movie_html = CGI::escape_html(movie_html.gsub('"', "'")) if escape
+		render json: { movie: movie_html, movie_id: @movie.id }
 	end
 end

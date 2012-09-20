@@ -5,3 +5,18 @@
     margin-left: 20px;
   }
 }
+
+.suggestions {
+  .movie-preview {
+    float: left;
+    width: 108px;
+    margin-right: 20px;
+    text-align: center;
+
+    .movie-text {
+      font-weight: bold;
+      color: #333;
+      font-decoration: none;
+    }
+  }
+}

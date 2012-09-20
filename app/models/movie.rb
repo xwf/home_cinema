@@ -15,6 +15,7 @@ class Movie < ActiveRecord::Base
 																	less_than_or_equal_to: Date.current.year}, unless: :api_result?
 	validates :moviepilot_url, format: %r{^http://www\.moviepilot\.de/movies/[^/]+$},
 														uniqueness: true, allow_nil: true
+	validate :not_from_moviepilot, on: :update
 
 	def self.build_from_api_result(movie_data)
 		movie = self::find_or_initialize_by_moviepilot_url(movie_data['restful_url'])
@@ -33,11 +34,16 @@ class Movie < ActiveRecord::Base
 	end
 
 	def self.convert_description(description)
+		return 'Keine Beschreibung' if description.blank?
 		CGI::unescape_html(description)
 		.gsub(/(\()?"(.+?) \(\2\)":/) { if $1 then "(#{$2})" else $2 end }
 	end
 
 	def api_result?
 		not moviepilot_url.nil?
+	end
+
+	def not_from_moviepilot
+		errors.add(:base, I18n::t('activerecord.errors.messages.cannot_update')) if moviepilot_url.present?
 	end
 end

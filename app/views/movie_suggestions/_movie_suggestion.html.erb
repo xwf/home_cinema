@@ -1,11 +1,15 @@
-<table>
-  <tr>
-    <td><%= movie_suggestion.movie_id %></td>
-    <td><%= movie_suggestion.show_id %></td>
-    <td><%= movie_suggestion.registration_id %></td>
-    <td><%= movie_suggestion.comment %></td>
-    <td><%= link_to 'Show', movie_suggestion %></td>
-    <td><%= link_to 'Edit', edit_movie_suggestion_path(movie_suggestion) %></td>
-    <td><%= link_to 'Destroy', movie_suggestion, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-</table>
+<div id="<%="suggestion#{movie_suggestion.id}"%>" class="movie-suggestion">
+	<% if edit %>
+		<%= link_to 'Löschen', movie_suggestion, confirm: 'Wirklich löschen?', method: :delete, class: 'btn btn-danger delete-suggestion' %>
+		<%= link_to 'Bearbeiten', edit_movie_suggestion_path(movie_suggestion), class: 'btn edit-suggestion' %>
+	<% end %>
+	<div class="movie-wrapper clearfix">
+		<%= render movie_suggestion.movie %>
+	</div>
+	<% if movie_suggestion.comment.present? %>
+		<div class="suggestion-comment">
+			Anmerkung<%=' von ' + movie_suggestion.registration.name if movie_suggestion.registration.present? %>:
+			<p><%= movie_suggestion.comment %></p>
+		</div>
+	<% end %>
+</div>

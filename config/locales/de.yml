@@ -165,5 +165,23 @@ de:
         odd: "Wert muss ungerade sein"
         even: "Wert muss gerade sein"
         unsupported_image_format: "hat ein nicht unterstütztes Bildformat"
+        no_movie: Bitte wähle einen Film aus.
+        duplicate_movie: Dieser Film wurde bereits vorgeschlagen.
+        no_suggestions_allowed: Für diese Vorstellung sind keine Filmvorschläge erlaubt.
+        cannot_update: Filme, die von moviepilot.de importiert wurden können nicht bearbeitet werden.
 
   actionview_instancetag_blank_option: Bitte auswählen
+
+  notice:
+    suggestion:
+      created: Filmvorschlag erstellt
+      updated: Filmvorschlag aktualisiert
+      deleted: Filmvorschlag gelöscht
+
+  alert:
+    suggestion:
+      not_found: Filmvorschlag nicht gefunden
+    registration:
+      invalid_code: Ungültiger Anmeldungscode
+    show:
+      not_found: Vorstellung nicht gefunden

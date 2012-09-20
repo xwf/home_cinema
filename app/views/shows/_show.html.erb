@@ -1,7 +1,8 @@
 <h3><%=l! show.date, format: :long %></h3>
 <p><%= show.text %></p>
-<div class="suggestions">
-	<%= render show.movie_suggestions %>
+<h4>Filmvorschläge</h4>
+<div class="suggestions clearfix">
+	<%= render partial: 'movie_suggestions/preview', collection: show.movie_suggestions %>
 </div>
 <%= render (admin ? 'shows/admin_actions' : 'shows/user_actions'), show: show %>
 <hr/>

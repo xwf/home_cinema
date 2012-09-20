@@ -23,6 +23,3 @@
 //= require jquery.iframe-transport.js
 //= require bootstrap
 //= require_tree .
-
-max = Math.max;
-min = Math.min;

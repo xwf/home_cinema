@@ -9,9 +9,9 @@ module MoviesHelper
 		end
 	end
 
-	def format_description(description)
-		simple_format(html_escape(description), {}, sanitize: false)
-		.gsub(/\*(.{,80})\*/, '<strong>\1</strong>')
+	def format_description(description, shorten=true)
+		simple_format(first_words(html_escape(description), shorten ? 130 : -1), {}, sanitize: false)
+		.gsub(/\*([^*]+)\*/, '<strong>\1</strong>')
 		.html_safe
 	end
 end

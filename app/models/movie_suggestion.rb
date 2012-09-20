@@ -10,8 +10,9 @@ class MovieSuggestion < ActiveRecord::Base
 	belongs_to :show
 	has_many :votes, dependent: :destroy
 
-	validates :movie, :show, presence: true
-	validates :movie_id, uniqueness: {scope: :show_id}
+	validates :show, presence: true
+	validates :movie, presence: {message: I18n.t('activerecord.errors.messages.no_movie')}
+	validates :movie_id, uniqueness: {scope: :show_id, message: I18n.t('activerecord.errors.messages.duplicate_movie')}
 	validates :status, inclusion: STATUSES
 	validate :suggestions_allowed_for_show
 
@@ -26,7 +27,7 @@ class MovieSuggestion < ActiveRecord::Base
 	protected
 	def suggestions_allowed_for_show
 		if registration
-			errors.add(:base, I18n.t('todo')) unless show.movie_suggestions_allowed #TODO
+			errors.add(:base, I18n.t('activerecord.errors.messages.no_suggestions_allowed')) unless show.movie_suggestions_allowed
 		end
 	end
 end

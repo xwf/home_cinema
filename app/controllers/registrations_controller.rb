@@ -3,7 +3,7 @@ class RegistrationsController < ApplicationController
   # GET /registrations
   # GET /registrations.json
   def index
-    @registrations = Registration.all
+    @show = Show.find(params[:show_id])
 
     respond_to do |format|
       format.html # index.html.erb

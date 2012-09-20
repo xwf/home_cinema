@@ -1,3 +1,12 @@
+#suggestions_header {
+  margin-bottom: 0;
+}
+
+.movie-suggestion {
+  padding-top: 20px;
+  border-bottom: 1px solid #EEE;
+}
+
 .ui-autocomplete {
 
   li.ui-menu-item {    
@@ -8,7 +17,7 @@
     border-bottom: none;
   }
 
-  .search-result {
+  .movie-preview {
     width: 300px;
     vertical-align: top;
     line-height: 1.2;
@@ -18,7 +27,7 @@
       margin-right: 3px;
     }
 
-    .movie_title {
+    .movie-text {
       margin-top: 3px;
     }
   }
@@ -47,24 +56,21 @@
       font-size: 16px;
       line-height: 1.5;
 
-      a {
+      a.suggestion-link {
         font-style: normal;
-      }
-
-      .suggestion-link {
         margin-left: 8px;
       }
     }
   }
 
-  .search-result {
+  .movie-preview {
     vertical-align: top;
     border-bottom: 1px solid #EEE;
     height: 91px;
     overflow: hidden;
     padding: 3px 0;
 
-    .result-text {
+    .movie-text {
       height: 61px;
     }
 
@@ -76,6 +82,7 @@
     img {
       float: left;
       margin-right: 5px;
+      min-height: 70px;
     }
   }
 
@@ -97,10 +104,36 @@
   }
 }
 
-#movie_wrapper {
+.movie-wrapper {
+
+  margin-bottom: 20px;
 
   img {
     float: left;
-    margin: 0 10px 10px 0;
+    margin: 0 10px 3px 0;
+    min-height: 250px;
   }
+
+  .movie-title {
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .movie-year {
+    font-size: 18px;
+  }
+
+  .movie-description {
+    margin-top: 5px;
+    text-align: justify;
+  }
+}
+
+.edit-suggestion, .delete-suggestion, #movie_change_button {
+  float: right;
+  margin-top: -10px;
+}
+
+.delete-suggestion {
+  margin-left: 4px;
 }

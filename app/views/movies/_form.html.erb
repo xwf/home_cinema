@@ -1,4 +1,4 @@
-<%= simple_form_for @movie, html: {multipart: true, class: "form-horizontal #{'modal-form' if modal}"} do |f| %>
+<%= simple_form_for @movie, html: {multipart: true, id: 'movie_form', class: "form-horizontal #{'modal-form' if modal}"} do |f| %>
 	<div class="<%=modal ? 'modal-body' : 'form-body'%>">
 		<%= f.input :title, input_html: {class: 'span4', required: 'required'} %>
 		<%= f.input :description, input_html: {rows: 10, class: 'span4', required: 'required'} %>
@@ -8,6 +8,6 @@
 	</div>
 	<div class="<%=modal ? 'modal-footer' : 'form-actions'%>">
 		<a data-dismiss="modal" class="btn">Abbrechen</a>
-		<%= f.button :submit, 'Übernehmen', class: 'btn-primary', id: 'movie_submit' %>
+		<%= f.button :submit, 'Übernehmen', class: 'btn-primary', id: 'movie_submit', :'data-loading-text' => 'Senden…' %>
 	</div>
 <% end %>

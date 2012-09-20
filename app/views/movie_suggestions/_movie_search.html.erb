@@ -1,11 +1,13 @@
-<form accept-charset="UTF-8" action="/movies/search" class="form-search"
-			data-remote="true" id="movie_search_form" method="get" novalidate="novalidate">
-	<input name="utf8" type="hidden" value="✓" />
+<form accept-charset="UTF-8" action="/movies/search" class="form-search <%='hide' unless @movie.new_record? %>"
+			data-remote="true" data-type="json" id="movie_search_form" method="get" novalidate="novalidate">
+	<input name="utf8" type="hidden" value="✓" />	
+	<label for="movie_search_input">Film</label><br/>
 	<div class="input-append">
 		<input class="autocomplete search-query" data-autocomplete="/movies/search"
 					id="movie_search_input" name="query" size="30" placeholder="Suchen"
-					 type="text" url="/movies/search" /><button class="btn" type="submit">
+					 type="search" url="/movies/search" /><button class="btn" type="submit">
 			<i class="icon-search"></i></button>
 	</div>
-	<span class="help-inline">oder <a data-toggle="modal" href="#movie_form_modal">manuell erfassen</a></span>
+	<span class="help-inline">oder <a id="movie_form_toggle" data-toggle="modal" href="#movie_form_modal">manuell erfassen</a></span>
 </form>
+<button id="movie_change_button" class="btn <%='hide' if @movie.new_record? %>">Film ändern</button>

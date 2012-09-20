@@ -1,3 +1,5 @@
-<div class="box heading red">Filmvorschläge für <%=l! @show.date.to_date %></div>
-<%= render @movie_suggestions %>
-<%= link_to 'Neuer Filmvorschlag', new_show_movie_suggestion_path(@show), class: 'button red' %>
+<div id="suggestions_header" class="page-header">
+	<h1>Filmvorschläge für <%=l! @show.date.to_date %></h1>
+</div>
+<%= render @movie_suggestions, edit: true %>
+<%= link_to 'Neuer Filmvorschlag', new_show_movie_suggestion_path(@show), class: 'btn' %>
