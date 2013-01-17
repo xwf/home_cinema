@@ -1,4 +1,4 @@
-class MovieSuggestionsController < ApplicationController
+	class MovieSuggestionsController < ApplicationController
 
 	before_filter :init
 

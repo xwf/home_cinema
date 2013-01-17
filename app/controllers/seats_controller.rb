@@ -42,32 +42,33 @@ class SeatsController < ApplicationController
   # POST /seats.json
   def create
     @seat = Seat.new(params[:seat])
+		filename = @seat.image.original_filename
+		@seat.name = File.basename(filename, File.extname(filename)).humanize
 
-    respond_to do |format|
-      if @seat.save
-        format.html { redirect_to @seat, notice: 'Seat was successfully created.' }
-        format.json { render json: @seat, status: :created, location: @seat }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @seat.errors, status: :unprocessable_entity }
-      end
-    end
+    if @seat.save
+			render json: {
+				id: @seat.id,
+				html: render_to_string(@seat, formats: :html)
+			}
+    else
+			render json: @seat.errors, status: :unprocessable_entity
+		end
   end
 
   # PUT /seats/1
   # PUT /seats/1.json
   def update
-    @seat = Seat.find(params[:id])
+    for seat in Seat.all
+			seat_data = params[seat.id.to_s]
+			if seat_data
+				seat.update_attributes(seat_data)
+			else
+				seat.destroy
+			end
+		end
 
-    respond_to do |format|
-      if @seat.update_attributes(params[:seat])
-        format.html { redirect_to @seat, notice: 'Seat was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @seat.errors, status: :unprocessable_entity }
-      end
-    end
+		#TODO: error handling
+    render json: {sucess: true}
   end
 
   # DELETE /seats/1

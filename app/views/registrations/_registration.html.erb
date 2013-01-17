@@ -1,0 +1,6 @@
+<td><%= registration.name %></td>
+<td><%= registration.email %></td>
+<td><%= registration.show_id %></td>
+<td><%= link_to 'Show', registration %></td>
+<td><%= link_to 'Edit', edit_registration_path(registration) %></td>
+<td><%= link_to 'Destroy', registration, confirm: 'Are you sure?', method: :delete %></td>

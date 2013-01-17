@@ -1,27 +1,4 @@
-<h1>Listing shows</h1>
-
-<table>
-  <tr>
-    <th>Date</th>
-    <th>Text</th>
-    <th>Movie suggestions allowed</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @shows.each do |show| %>
-  <tr>
-    <td><%=l show.date %></td>
-    <td><%= show.text %></td>
-    <td><%= show.movie_suggestions_allowed %></td>
-    <td><%= link_to 'Show', show %></td>
-    <td><%= link_to 'Edit', edit_show_path(show) %></td>
-    <td><%= link_to 'Destroy', show, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Show', new_show_path %>
+<div class="page-header">
+	<h1>Nächste Vorstellungen</h1>
+</div>
+<%= render @shows %>

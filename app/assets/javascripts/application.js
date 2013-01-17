@@ -18,7 +18,6 @@
 //= require jquery_ujs
 //= require autocomplete-rails
 //= require jquery.ui.autocomplete.html.js
-//= require jquery.ui.widget.js
 //= require jquery.fileupload.js
 //= require jquery.iframe-transport.js
 //= require bootstrap

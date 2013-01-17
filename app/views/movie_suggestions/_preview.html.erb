@@ -1,0 +1,3 @@
+<%= link_to send(@admin ? :show_movie_suggestions_path : :show_path, preview.show, anchor: "suggestion#{preview.id}") do %>
+	<%= render partial: 'movies/preview', object: preview.movie, locals: {format: 'poster_large'} %>
+<% end %>

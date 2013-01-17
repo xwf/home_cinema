@@ -143,6 +143,12 @@ de:
           other:  "Dieses %{model}-Objekt konnte nicht gespeichert werden: %{count} Fehler."
         body: "Bitte überprüfen Sie die folgenden Felder:"
 
+      models:
+        movie:
+          attributes:
+            poster_content_type:
+              invalid: "Ungültiges Bildformat"
+
       messages:
         inclusion: "Wert ist ungültig"
         exclusion: "Wert ist nicht verfügbar"

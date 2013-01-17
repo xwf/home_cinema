@@ -15,6 +15,7 @@ class Movie < ActiveRecord::Base
 																	less_than_or_equal_to: Date.current.year}, unless: :api_result?
 	validates :moviepilot_url, format: %r{^http://www\.moviepilot\.de/movies/[^/]+$},
 														uniqueness: true, allow_nil: true
+	validates :poster, attachment_content_type: { content_type: /image\/[\w\-]*(?:jpe?g|png)$/i }
 	validate :not_from_moviepilot, on: :update
 
 	def self.build_from_api_result(movie_data)

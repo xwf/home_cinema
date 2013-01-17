@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  movie_search: one
+  result_number: 0
+  movie: matrix
+
+two:
+  movie_search: one
+  result_number: 1
+  movie: blade

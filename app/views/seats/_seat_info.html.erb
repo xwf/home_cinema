@@ -1,0 +1,11 @@
+<div id="seat_info" class="span4" style="display: none;">
+	<%= simple_form_for 'seat' do |f| %>
+		<%= f.input :name %>
+		<%= f.input :position_x %>
+		<%= f.input :position_y %>
+	<% end %>
+	<button id="delete_seat" type="button" class="btn btn-danger">
+		<i class="icon-trash icon-white"></i>
+		<span>Sitz löschen</span>
+	</button>
+</div>

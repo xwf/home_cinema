@@ -30,6 +30,7 @@ gem 'rails3-jquery-autocomplete'
 gem 'rails_config'
 gem 'httparty'
 gem "paperclip", "~> 3.0"
+gem "paperclip-meta"
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

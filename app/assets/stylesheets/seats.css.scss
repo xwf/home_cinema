@@ -1,3 +1,65 @@
-// Place all the styles related to the Seats controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.fileinput-button {
+  overflow: hidden;
+  position: relative;
+
+  input {
+    cursor: pointer;
+    direction: ltr;
+    font-size: 23px;
+    margin: 0;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translate(-300px, 0px) scale(4);
+  }
+}
+
+#seat_plan, #seat_info {
+  height: 500px;
+}
+
+#seat_plan {
+  
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  background: transparent url('/assets/seat/leinwand.png') no-repeat top center;
+  position: relative;
+  
+  .ui-draggable {
+    position: relative;
+    cursor: move;
+  }
+
+  .ui-draggable.ui-draggable-dragging {
+    cursor: -moz-grabbing;
+  }
+
+  .seat {
+    position: absolute;
+    
+    .occupancy {
+      background: transparent none no-repeat center center;
+      width: 124px;
+      height: 150px;
+    }
+  }
+
+  .seat.selected .occupancy {
+    background-image: url('/assets/seat/man_red_150.png');
+  }
+}
+
+#seat_info {
+  margin-left: 18px;
+}
+
+#seat_actions {
+
+  margin-top: 10px;
+
+  > * {
+    float: left;
+    margin-right: 5px;
+  }
+}

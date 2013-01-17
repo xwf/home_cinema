@@ -1,6 +1,6 @@
 <%= render 'movie_search' %>
 <div class="movie-wrapper clearfix">
-	<%= render @movie, edit: true unless @movie.new_record? %>
+	<%= render @movie unless @movie.new_record? %>
 </div>
 <%= simple_form_for @movie_suggestion, url: @form_path do |f| %>
 	<%= f.input_field :movie_id, as: :hidden %>

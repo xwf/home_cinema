@@ -1,0 +1,16 @@
+<% format ||= 'poster' %>
+<div class="movie-preview clearfix">
+	<div class="movie-poster">
+		<%= image_tag poster_url(preview, format),
+			alt: "Poster zu #{preview.title}", width: (format=='poster') ? 60 : 108 %>
+	</div>
+	<div class="movie-text">
+		<span class="movie-title"><%=h preview.title %></span>
+		<% if preview.production_year %>
+		<span class="movie-year">(<%= preview.production_year %>)</span>
+		<% end %>
+	</div>
+	<% if params[:query].present? %>
+		<button class="btn movie-select" data-id="<%=preview.id%>">&Uuml;bernehmen</button>
+	<% end %>
+</div>

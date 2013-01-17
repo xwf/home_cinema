@@ -1,0 +1,18 @@
+<div class="movie-poster">
+	<%= image_tag poster_url(movie, 'normal'),
+		alt: "Poster zu #{movie.title}", width: '200' %>
+</div>
+<div class="movie-text">
+	<span class="movie-title"><%=h movie.title %></span>
+	<% if movie.production_year %>
+		<span class="movie-year">(<%= movie.production_year %>)</span>
+	<% end %>
+	<div class="movie-description read-more-short">
+		<%= format_description movie.description %>
+	</div>
+	<div class="movie-description read-more-full">
+		<%= format_description movie.description, false %>
+	</div>
+	<%= link_to "Mehr Infos, Bilder und Trailer auf www.moviepilot.de",
+				movie.moviepilot_url, target: :_blank, class: 'moviepilot-link' if movie.moviepilot_url%>
+</div>

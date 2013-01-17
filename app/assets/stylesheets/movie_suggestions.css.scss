@@ -79,9 +79,9 @@
       margin: 0;
     }
 
-    img {
+    .movie-poster {
       float: left;
-      margin-right: 5px;
+      padding-right: 5px;
       min-height: 70px;
     }
   }
@@ -108,9 +108,9 @@
 
   margin-bottom: 20px;
 
-  img {
+  .movie-poster {
     float: left;
-    margin: 0 10px 3px 0;
+    padding: 0 10px 3px 0;
     min-height: 250px;
   }
 

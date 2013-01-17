@@ -149,6 +149,7 @@ submit = form.find('#movie_submit')
 movieFormError = (jqXHR, textStatus, errorThrown) ->
   response = $.parseJSON jqXHR.responseText
   for field_name, errors of response
+    field_name = 'poster' if field_name.match /^poster_/
     field = form.find("#movie_#{field_name}")
     field.parents('.control-group').addClass 'error'
     field.parent().append $('<span/>').addClass('help-inline error').text(errors[0])

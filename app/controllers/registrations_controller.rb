@@ -25,7 +25,8 @@ class RegistrationsController < ApplicationController
   # GET /registrations/new
   # GET /registrations/new.json
   def new
-    @registration = Registration.new
+		@show = Show.find(params[:show_id])
+    @registration = @show.registrations.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -41,6 +42,7 @@ class RegistrationsController < ApplicationController
   # POST /registrations
   # POST /registrations.json
   def create
+		@show = Show.find(params[:show_id])
     @registration = Registration.new(params[:registration])
 
     respond_to do |format|

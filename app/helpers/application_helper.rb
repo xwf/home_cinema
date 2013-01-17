@@ -15,8 +15,8 @@ module ApplicationHelper
 	alias :l! :localize!
 
 	def first_words(string, n)
-		return string.safe_concat(' <a class="read-less-link">Weniger anzeigen</a>') if n < 0
-		words = string.split(/[ ]+/)
+		return string.strip.concat(' <a class="read-less-link">Weniger anzeigen</a>').html_safe if n < 0
+		words = string.strip.split(/[ ]+/)
 		words[0...n].join(' ') + (words.size > n ? '... <a class="read-more-link">Weiterlesen</a>' : '')
 	end
 

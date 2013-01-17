@@ -1,0 +1,7 @@
+<%= form_for 'seat', url: seats_path, html: {id: 'seat_upload', class: 'form-inline'} do |f| %>
+	<span class="btn fileinput-button">
+		<i class="icon-upload"></i>
+		<span>Sitz hinzuf&uuml;gen</span>
+		<%= f.file_field :image %>
+	</span>
+<% end %>
