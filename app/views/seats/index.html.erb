@@ -3,13 +3,13 @@
 </div>
 
 <div class="row">
-	<%= render 'seat_plan', editable: true %>
+	<%= render 'seat_plan' %>
 	<%= render 'seat_info' %>
 </div>
 
 <div id="seat_actions">
 	<%= render 'seat_upload' %>
-	<button id="save_btn" type="button" class="btn btn-primary">
+	<button id="save_seats_btn" type="button" class="btn btn-primary">
 		<span>Speichern</span>
 	</button>
 	<%= link_to 'Zurück', admin_path, class: 'btn' %>

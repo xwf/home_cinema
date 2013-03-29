@@ -2,7 +2,7 @@ require 'status'
 class Registration < ActiveRecord::Base
 	STATUSES = [Status::PENDING, Status::ACCEPTED, Status::DENIED, Status::CANCELLED]
 
-	attr_accessible :code, :email, :name, :show_id, :show, :status
+	attr_accessible :code, :email, :name, :show_id, :show, :status, :seat_id
 
 	belongs_to :show
 	has_one :movie_suggestion, dependent: :destroy
@@ -18,6 +18,14 @@ class Registration < ActiveRecord::Base
 
 	def email=(email)
 		write_attribute(:email, email.downcase)
+	end
+
+	def seat_id=(seat_id)
+		seat_reservations.build(seat_id: seat_id)
+	end
+
+	def seat_id
+		seat_reservations.first.seat_id unless seat_reservations.empty?
 	end
 
 	protected

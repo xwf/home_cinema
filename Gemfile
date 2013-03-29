@@ -47,4 +47,4 @@ gem "paperclip-meta"
 # To use debugger
 # gem 'debugger', group: [:development, :test]
 gem 'ruby-debug-base19x', '0.11.30.pre10'
-gem 'ruby-debug-ide', '0.4.17.beta14'
+gem 'ruby-debug-ide', '0.4.17.beta16'

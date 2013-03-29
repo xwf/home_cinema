@@ -3,12 +3,6 @@ class SeatsController < ApplicationController
   # GET /seats
   # GET /seats.json
   def index
-    @seats = Seat.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @seats }
-    end
   end
 
   # GET /seats/1

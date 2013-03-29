@@ -7,11 +7,11 @@
     <title><%= content_for?(:title) ? yield(:title) : "Home Cinema" %></title>
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <%= stylesheet_link_tag    "application", :media => "all" %>    
+    <%= stylesheet_link_tag "application", :media => "all" %>    
     <%= csrf_meta_tags %>
     <%= yield(:head) %>
   </head>
-  <body>
+  <body class="<%= controller_name %>">
     <div id="main" role="main">
       <div class="container">
         <div class="content">
@@ -26,6 +26,6 @@
         </div>
       </div> <!--! end of .container -->
     </div> <!--! end of #main -->
-		<%= javascript_include_tag "application" %>
+		<%= javascript_include_tag "application", 'general', controller_name %>
   </body>
 </html>

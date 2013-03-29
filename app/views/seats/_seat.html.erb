@@ -1,8 +1,8 @@
-<%= content_tag :div, id: 'seat'+seat.id.to_s, data: {id: seat.id, name: seat.name}, class: 'seat', style: (
+<%= content_tag :div, id: 'seat'+seat.id.to_s, data: {id: seat.id, name: seat.name}, class: get_seat_class(seat, @registration), style: (
 		"left: #{seat.position_x}px; " +
 		"top: #{seat.position_y}px; " +
 		"width: #{seat.image.width(:sized)}px; " +
 		"height: #{seat.image.height(:sized)}px; " +
-		"background: transparent url('#{path_to_image seat.image.url(:sized)}') no-repeat center center; ") do -%>
+		"background: transparent url('#{seat.image.url(:sized)}') no-repeat center center; ") do -%>
 	<div class="occupancy"></div>
 <% end -%>

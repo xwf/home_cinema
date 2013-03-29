@@ -21,4 +21,4 @@
 //= require jquery.fileupload.js
 //= require jquery.iframe-transport.js
 //= require bootstrap
-//= require_tree .
+//DISABLED require_tree .

@@ -1,8 +1,8 @@
+seat_plan = $('#seat_plan')
 pos_x = $('#seat_position_x')
 pos_y = $('#seat_position_y')
 seat_name = $('#seat_name')
 seat_info = $('#seat_info')
-seat_plan = $('#seat_plan')
 
 makeDraggable = (items) ->  
   $(items).draggable
@@ -19,7 +19,19 @@ makeDraggable = (items) ->
     seat_info.show()
   .on 'mouseup', ->
     $(this).removeClass 'ui-draggable-dragging'
-    
+  
+setPositionX = (value) ->
+  selected = seat_plan.find('.seat.selected')
+  if selected.length == 1
+    pos_x.val min(max(0, parseInt(value)), seat_plan.width() - selected.width())
+    selected.css 'left', pos_x.val() + 'px'
+
+setPositionY = (value) ->
+  selected = seat_plan.find('.seat.selected')
+  if selected.length == 1 
+    pos_y.val min(max(0, parseInt(value)), seat_plan.height() - selected.height())
+    selected.css 'top', pos_y.val() + 'px'
+  
 makeDraggable seat_plan.find('.seat')
 
 $(document).on 'keydown', (event) ->
@@ -35,27 +47,19 @@ $(document).on 'keydown', (event) ->
     when 33 then setPositionY(y - 10) # page up
     when 34 then setPositionY(y + 10) # page down
     else other_key = true
-  
+
   event.preventDefault() unless other_key
+
+seat_name.on 'keydown', (event) ->
+  switch event.which
+    when 37, 39 then event.stopPropagation()
 
 pos_x.on 'change', -> setPositionX(pos_x.val())
 pos_y.on 'change', -> setPositionY(pos_y.val())
-
-setPositionX = (value) ->
-  selected = seat_plan.find('.seat.selected')
-  if selected.length == 1
-    pos_x.val min(max(0, parseInt(value)), seat_plan.width() - selected.width())
-    selected.css 'left', pos_x.val() + 'px'
-    
-setPositionY = (value) ->
-  selected = seat_plan.find('.seat.selected')
-  if selected.length == 1 
-    pos_y.val min(max(0, parseInt(value)), seat_plan.height() - selected.height())
-    selected.css 'top', pos_y.val() + 'px'
-    
+  
 seat_name.on 'keyup', ->
   seat_plan.find('.seat.selected').data('name', $(this).val())
-    
+  
 $('#delete_seat').on 'click', ->
   seat_plan.find('.seat.selected').remove()
   seat_info.hide()
@@ -67,8 +71,8 @@ $('#seat_image').fileupload
   done: (e, data) ->
     $('#seat_plan').append data.result.html
     makeDraggable '#seat' + data.result.id
-    
-$('#save_btn').on 'click', ->
+  
+$('#save_seats_btn').on 'click', ->
   data = {}
   seat_plan.find('.seat').each ->
     seat_position = $(this).position()
@@ -80,7 +84,6 @@ $('#save_btn').on 'click', ->
     type: 'PUT'
     data: data
     success: -> window.location.href = '/admin'
+  
+
     
-    
-      
-      
