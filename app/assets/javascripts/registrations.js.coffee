@@ -1,3 +1,6 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
+seat_plan = $('#seat_plan')
+
+seat_plan.find('.seat').on 'mousedown', ->
+  unless $(this).is 'taken'
+    seat_plan.find('.selected').removeClass 'selected'
+    $(this).addClass 'selected'
